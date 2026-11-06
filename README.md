@@ -29,6 +29,6 @@ These three pages come from the approved design. Other links point to the planne
 
 ## Deploy
 
-Cloudflare Pages (or Workers static assets): no build step, output directory is the repository root.
+Cloudflare Workers static assets, Worker `microbiome-website`, connected to this repo. Every push to `main` deploys to https://microbiomerecipes.com (no build step; `npx wrangler deploy` reads `wrangler.jsonc`). Files that must not be published go in `.assetsignore`.
 
 `microbiomecookbook.com` and `microbiomedietcookbook.com` 301-redirect to `microbiomerecipes.com` (set in Cloudflare, not in this repo).
