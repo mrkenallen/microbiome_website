@@ -3,3 +3,5 @@
 wrangler.jsonc
 README.md
 **/.DS_Store
+.wrangler
+node_modules
