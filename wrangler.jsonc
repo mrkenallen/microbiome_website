@@ -1,0 +1,10 @@
+{
+  // Static site served by Cloudflare Workers Static Assets. No build step, no Worker script.
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "microbiome-website",
+  "compatibility_date": "2026-11-05",
+  "assets": {
+    "directory": "./",
+    "html_handling": "auto-trailing-slash"
+  }
+}
