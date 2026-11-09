@@ -236,7 +236,7 @@ def head(title, desc):
 
 
 def header(current=None):
-    links = [("Recipes", f"{P}/#recipes-title"), ("Learn", f"{P}/learn/fiber/"),
+    links = [("Recipes", f"{P}/#recipes-title"), ("Learn", f"{P}/learn/"),
              ("Equipment", f"{P}/equipment/"), ("Supplies", f"{P}/supplies/")]
     nav = "\n".join(
         f'      <a href="{h}"{" aria-current=\"page\"" if n == current else ""}>{n}</a>' for n, h in links)
@@ -459,8 +459,118 @@ def supplies_page():
     write(f"{P}/supplies/index.html", body)
 
 
+# ---------------------------------------------------------------- articles (Learn)
+# Summaries come from the book outline's Part 1 research table; sources are the ones cited there.
+ARTICLES = [
+    {"slug": "microbiome-basics", "title": "Meet your gut microbiome", "status": "mockup",
+     "covers": "What the microbiome is and how quickly diet shifts it.",
+     "summary": "Diet can change gut microbes within about a day. Most findings so far come from small or short studies, so we treat them as early signals, not proof.",
+     "recipes": "Why we focus on everyday eating patterns instead of quick fixes.",
+     "sources": [("Harvard T.H. Chan School of Public Health: The Microbiome", "https://nutritionsource.hsph.harvard.edu/microbiome/"),
+                 ("NIH News in Health: Your Body's Bugs", "https://newsinhealth.nih.gov/2021/08/your-body-s-bugs"),
+                 ("David et al., Nature 2014", "https://doi.org/10.1038/nature12820")]},
+    {"slug": "fiber", "title": "Fiber: the strongest evidence", "status": "draft",
+     "covers": "Fiber types, food sources and how much to eat.",
+     "summary": "Higher fiber intake is linked to lower risk of heart disease, type 2 diabetes and colorectal cancer. Fiber alone hasn't been shown to raise microbial diversity in the short term.",
+     "recipes": "Why most of our recipes are built on beans, lentils, whole grains and vegetables.",
+     "sources": [("Reynolds et al., The Lancet 2019", "https://doi.org/10.1016/S0140-6736(18)31809-9"),
+                 ("King's College London, 2018", "https://www.kcl.ac.uk/news/some-types-of-fibre-more-beneficial-for-gut-health-than-others"),
+                 ("Harvard T.H. Chan School of Public Health: Fiber", "https://nutritionsource.hsph.harvard.edu/carbohydrates/fiber/")]},
+    {"slug": "fermented-foods", "title": "Fermented foods: promising, early", "status": "mockup",
+     "covers": "Yogurt, kefir, kimchi, sauerkraut, miso and tempeh.",
+     "summary": "An early Stanford study found a fermented-food diet raised gut microbial diversity. Experts say the health benefits aren't yet established.",
+     "recipes": "Why kefir, kimchi and sauerkraut show up often, and why we add kimchi at the end of cooking to keep its live cultures.",
+     "sources": [("Wastyk et al., Cell 2021", "https://doi.org/10.1016/j.cell.2021.06.019"),
+                 ("Marco et al., Nature Reviews Gastroenterology & Hepatology 2021 (ISAPP)", "https://doi.org/10.1038/s41575-020-00390-5"),
+                 ("American Gastroenterological Association: The gut microbiome", "https://patient.gastro.org/the-gut-microbiome-what-it-is/")]},
+    {"slug": "plant-variety", "title": "Plant variety and \"30 plants a week\"", "status": "mockup",
+     "covers": "Counting plant types and easy ways to add variety.",
+     "summary": "Researchers are testing whether eating 30 or more plant types a week helps the gut. For now it's an association, not a proven cause.",
+     "recipes": "Why our recipes mix several vegetables, grains, nuts, seeds and herbs in one dish.",
+     "sources": [("McDonald et al., mSystems 2018", "https://doi.org/10.1128/mSystems.00031-18"),
+                 ("King's College London, 2021", "https://www.kcl.ac.uk/news/landmark-study-link-gut-microbes-diet-illnesses")]},
+    {"slug": "eating-patterns", "title": "Patterns beat single foods", "status": "mockup",
+     "covers": "Mediterranean-style eating and why habits matter more than superfoods.",
+     "summary": "Mediterranean-style eating has been linked to gut-microbe changes in older adults, and the benefits faded when people stopped.",
+     "recipes": "Why we offer a full week of meals rather than a single \"gut-health\" food.",
+     "sources": [("Ghosh et al., Gut 2020", "https://doi.org/10.1136/gutjnl-2019-319654"),
+                 ("Ross et al., Nature Reviews Microbiology 2024", "https://doi.org/10.1038/s41579-024-01068-4"),
+                 ("MD Anderson: beans and gut health trial", "https://www.mdanderson.org/newsroom/eating-beans-improves-gut-health-regulates-immune-inflammatory-processes-colorectal-cancer-survivors.h00-159623379.html")]},
+    {"slug": "start-slow", "title": "Start slow, stay safe", "status": "mockup",
+     "covers": "Ramping up fiber, drinking water, and who should check with a doctor first.",
+     "summary": "Add fiber gradually and drink water with it. People with IBS, IBD or strictures, those taking MAOIs, anyone watching sodium, and people who are immunocompromised should take extra care with high-fiber and fermented foods.",
+     "recipes": "Why our recipes carry \"Good to know\" notes and suggest half portions for beginners.",
+     "sources": [("Ascension, 2026", "https://healthcare.ascension.org/blog/2026/08/flpen-fibermaxxing-too-much-fiber"),
+                 ("UF/IFAS: Sauerkraut", "https://ask.ifas.ufl.edu/publication/FS474/pdf"),
+                 ("Mayo Clinic: Probiotics", "https://mayoclinic.org/healthy-lifestyle/consumer-health/expert-answers/probiotics/faq-20058065")]},
+]
+
+
+def sources_list(srcs):
+    return "<ol>" + "".join(f'<li><a href="{e(u)}">{e(t)}</a></li>' for t, u in srcs) + "</ol>"
+
+
+def learn_index():
+    cards = []
+    for a in ARTICLES:
+        badge = "Draft" if a["status"] == "draft" else "Mockup"
+        cards.append(f"""      <article class="article-card">
+        {placeholder(a["title"], "ph ph-thumb-lg")}
+        <div class="article-card-body">
+          <p class="pick-label">{badge}</p>
+          <h2><a href="{P}/learn/{a["slug"]}/">{e(a["title"])}</a></h2>
+          <p>{e(a["summary"])}</p>
+          <p class="in-recipes"><strong>In our recipes:</strong> {e(a["recipes"])}</p>
+          <p class="fine">Sources: {", ".join(f'<a href="{e(u)}">{e(t)}</a>' for t, u in a["sources"])}</p>
+        </div>
+      </article>""")
+    body = f"""{head("Learn: the science behind our recipes", "Short, cited explainers on fiber, fermented foods, plant variety and eating patterns, and how they shape our recipes.")}{header("Learn")}
+<main id="main">
+  <div class="narrow" style="padding-top:40px; padding-bottom:72px">
+    <p class="eyebrow">Learn</p>
+    <h1 class="page-title">The science behind our recipes</h1>
+    <p class="lede">Why we cook the way we do, in plain language and with sources. Where the research is early, we say so.</p>
+    <div class="article-list">
+{chr(10).join(cards)}
+    </div>
+    <p class="disclaimer">General information, not medical advice. Talk with your doctor before big changes to your diet.</p>
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/learn/index.html", body)
+
+
+def article_stub(a):
+    body = f"""{head(a["title"], a["summary"])}{header("Learn")}
+<main id="main">
+  <div class="narrow">
+    <p class="breadcrumb"><a href="{P}/">Home</a> / <a href="{P}/learn/">Learn</a> / {e(a["title"])}</p>
+    <article class="article">
+      <h1>{e(a["title"])}</h1>
+      <p class="byline">By Ken Allen · [DATE] · Article in progress</p>
+      <section class="summary" aria-labelledby="sum-title">
+        <h2 id="sum-title">The short version</h2>
+        <ul><li>{e(a["summary"])}</li><li><strong>In our recipes:</strong> {e(a["recipes"])}</li></ul>
+      </section>
+      {placeholder("Article image", "ph ph-wide")}
+      <div class="prose">
+        <p><em>Full article coming soon. It will cover: {e(a["covers"][0].lower() + a["covers"][1:])}</em></p>
+      </div>
+      <section class="sources" aria-labelledby="src-title"><h2 id="src-title" style="font-size:20px">Sources</h2>{sources_list(a["sources"])}</section>
+      <p class="disclaimer">General information, not medical advice.</p>
+    </article>
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/learn/{a['slug']}/index.html", body)
+
+
 if __name__ == "__main__":
     for r in RECIPES:
         recipe_page(r)
     equipment_page()
     supplies_page()
+    learn_index()
+    for a in ARTICLES:
+        if a["slug"] != "fiber":  # the fiber article is hand-written
+            article_stub(a)
