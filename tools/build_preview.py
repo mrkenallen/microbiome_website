@@ -446,11 +446,11 @@ def supplies_page():
         {grocery_buttons(iid)}
       </li>""")
         sections.append(f'    <section aria-labelledby="{cid}-h"><h2 id="{cid}-h" class="cat-head">{e(cat)}</h2>\n    <ul class="supply-list">\n' + "\n".join(rows) + "\n    </ul>\n    </section>")
-    body = f"""{head("Supplies", "Pantry staples, spices and kitchen supplies for our recipes.")}{header("Supplies")}
+    body = f"""{head("Supplies We Love", "Pantry staples, spices and kitchen supplies for our recipes.")}{header("Supplies")}
 <main id="main">
   <div class="narrow" style="padding-top:40px; padding-bottom:72px">
     <p class="eyebrow">Pantry guide</p>
-    <h1 class="page-title">Supplies</h1>
+    <h1 class="page-title">Supplies We Love</h1>
     <p class="lede">The salt, oils, spices and staples our recipes lean on. Keep these stocked and most recipes only need a short fresh-food list.</p>
 {chr(10).join(sections)}
   </div>
