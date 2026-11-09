@@ -84,7 +84,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">')
 
 
-def head(title, desc):
+def head(title, desc, extra=""):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -97,7 +97,7 @@ def head(title, desc):
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/assets/preview.css">
 <!-- Google AdSense: paste the account loader script here (adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX) -->
-</head>
+{extra}</head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 """
@@ -188,6 +188,54 @@ def write(path, content):
     print("wrote", path)
 
 
+# ---------------------------------------------------------------- recipe structured data (schema.org/Recipe)
+SITE = "https://microbiomerecipes.com"
+
+
+def iso_duration(text):
+    """'35 minutes' -> PT35M, '6 hours 5 minutes (overnight)' -> PT6H5M. Returns None if no time is given."""
+    import re as _re
+    t = (text or "").lower()
+    if not t or "tbd" in t:
+        return None
+    h = _re.search(r"(\d+)\s*(?:hours?|hrs?|hr)\b", t)
+    m = _re.search(r"(\d+)\s*(?:minutes?|mins?|min)\b", t)
+    if not h and not m:
+        return None
+    return "PT" + (f"{h.group(1)}H" if h else "") + (f"{m.group(1)}M" if m else "")
+
+
+def recipe_jsonld(r):
+    """Recipe markup read by Google search and by Chicory. Built from the recipe's CMS fields."""
+    authors = [a.strip() for a in BOOK["authors"].replace(" and ", ",").split(",") if a.strip()]
+    d = {
+        "@context": "https://schema.org",
+        "@type": "Recipe",
+        "name": r["title"],
+        "description": r.get("intro", ""),
+        "author": [{"@type": "Person", "name": a} for a in authors],
+        "url": f"{SITE}{P}/recipes/{r['slug']}/",
+        "recipeCategory": r["meal"],
+        "keywords": ", ".join([r["pillar"]] + list(r.get("tags") or [])),
+        "recipeIngredient": [f"{q} {i}".strip() for q, i in r["ingredients"]],
+        "recipeInstructions": [],
+    }
+    if r.get("image"):
+        d["image"] = [r["image"] if r["image"].startswith("http") else SITE + r["image"]]
+    if r.get("serves"):
+        d["recipeYield"] = f'{r["serves"]} servings'
+    for key, field in (("prepTime", "prep_time"), ("totalTime", "total")):
+        v = iso_duration(r.get(field))
+        if v:
+            d[key] = v
+    for name, items in (("Prep", r.get("prep") or []), ("Steps", r.get("steps") or [])):
+        if items:
+            d["recipeInstructions"].append({"@type": "HowToSection", "name": name,
+                                            "itemListElement": [{"@type": "HowToStep", "text": t} for t in items]})
+    js = json.dumps(d, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    return f'<script type="application/ld+json">\n{js}\n</script>\n'
+
+
 # ---------------------------------------------------------------- recipe page
 def numbered(items, start=1):
     return "\n".join(
@@ -207,7 +255,7 @@ def recipe_page(r):
     care = (f'<section class="care" aria-labelledby="care-title"><h2 id="care-title">Good to know</h2><p>{e(r["care"])}</p></section>'
             if r.get("care") else "")
     s = r["slug"]
-    body = f"""{head(r["title"], r["intro"])}{header()}
+    body = f"""{head(r["title"], r["intro"], recipe_jsonld(r))}{header()}
 <main id="main">
   <div class="wrap">
     <p class="breadcrumb"><a href="{P}/">Home</a> / <a href="{P}/recipes/">Recipes</a> / {e(r["title"])}</p>
