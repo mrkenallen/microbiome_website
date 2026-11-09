@@ -617,10 +617,10 @@ BOOK = {
     "authors": "Crystal Allen and Ken Allen",
     "blurb": [
         "Eating for your gut doesn't take supplements, special tests or a pantry full of powders. It takes good food: beans and whole grains, vegetables in every color, and the tangy, living flavors of yogurt, kefir, kimchi and sauerkraut.",
-        "In <em>The Microbiome Cookbook</em>, Crystal Allen and Ken Allen bring together 78 recipes you won't find on the website, from weekday breakfasts to slow-simmered dinners, fresh breads and homemade fermented drinks. Every recipe carries a short gut-health note that tells you what the research shows, and where it's still early.",
+        "In <em>The Microbiome Cookbook</em>, Crystal Allen and Ken Allen bring together 150 recipes you won't find on the website, from weekday breakfasts to slow-simmered dinners, fresh breads and homemade fermented drinks. Every recipe carries a short gut-health note that tells you what the research shows, and where it's still early.",
         "Six plain-language science chapters explain the why: what your gut microbiome is, why fiber has the strongest evidence, what we know (and don't) about fermented foods, and how to add more fiber comfortably. A hands-on fermenting guide walks you through the base methods step by step, with the safety rules that matter.",
     ],
-    "inside": ["78 book-only recipes, from breakfast to fermented drinks",
+    "inside": ["150 book-only recipes, from breakfast to fermented drinks",
                "Six short science chapters, with sources",
                "A step-by-step guide to fermenting at home",
                "A cited gut-health note on every recipe"],
