@@ -126,3 +126,16 @@
 .ad-in-content .ad-box { min-height: 250px; max-width: 336px; margin: 0 auto; }
 .ad-leaderboard .ad-box { min-height: 90px; max-width: 728px; margin: 0 auto; }
 @media print { .ad-slot { display: none !important; } }
+
+/* Home: featured recipe in the hero */
+.featured { flex: 1 1 420px; min-width: 0; max-width: 520px; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; text-decoration: none; color: var(--ink); background: #fff; }
+.featured:hover { color: var(--ink); border-color: var(--border); }
+.featured:hover .featured-title { text-decoration: underline; }
+.featured-img { aspect-ratio: 16 / 9; border-radius: 0; }
+.featured-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 10px; }
+.featured-label { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.featured-title { font-size: 24px; line-height: 1.25; }
+.featured-desc { margin: 0; font-size: 16px; color: var(--muted); line-height: 1.5; }
+.featured-cta { font-weight: 700; color: var(--accent); }
+.hero:has(.featured) { padding: 40px 0 48px; gap: 40px; }
+.main-nav a.btn-primary, .main-nav a.btn-primary:hover { color: #fff; }
