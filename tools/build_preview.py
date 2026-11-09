@@ -229,6 +229,7 @@ def head(title, desc):
 {FONTS}
 <link rel="stylesheet" href="/assets/styles.css">
 <link rel="stylesheet" href="/assets/preview.css">
+<!-- Google AdSense: paste the account loader script here (adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX) -->
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -266,6 +267,13 @@ FOOTER = """<footer class="site-footer">
 </body>
 </html>
 """
+
+
+def ad(slot, size="in-content"):
+    """Google AdSense placeholder. Replace the inner div with the AdSense <ins> unit for this slot."""
+    return (f'<aside class="ad-slot ad-{size}" aria-label="Advertisement">'
+            f'<!-- AdSense unit: {slot} ({size}) — paste the <ins class="adsbygoogle"> code here -->'
+            f'<span class="ad-label">Advertisement</span><div class="ad-box">Google AdSense · {e(slot)}</div></aside>')
 
 
 def placeholder(label, cls="ph"):
@@ -331,6 +339,7 @@ def recipe_page(r):
       </div>
       {placeholder("Finished dish", "ph ph-hero")}
     </section>
+    {ad("recipe-top", "leaderboard")}
   </div>
 
   <div class="narrow recipe-card-panel">
@@ -348,6 +357,8 @@ def recipe_page(r):
       </ul>
       <p class="fine">Prices are placeholders. <a href="{P}/equipment/">See all equipment</a></p>
     </section>
+
+    {ad("recipe-after-equipment")}
 
     {placeholder("Ingredients laid out side by side", "ph ph-wide")}
 
@@ -374,6 +385,8 @@ def recipe_page(r):
       </ol>
       {placeholder("Step photo", "ph ph-step")}
     </section>
+
+    {ad("recipe-after-steps")}
 
     {note}
     {care}
@@ -423,8 +436,10 @@ def equipment_page():
     <p class="lede">Every tool that appears in our recipes, in one place. You don't need all of it: start with a knife, a board and one good skillet.</p>
     <p class="byline">By Ken Allen · Updated [DATE]</p>
     <div class="callout"><strong>How we pick.</strong> [Explain the testing and selection approach.] Prices and store links are placeholders until our retail partnerships are live. Some links will earn us a commission at no cost to you.</div>
+    {ad("equipment-top", "leaderboard")}
     <nav class="toc" aria-label="Categories">{toc}</nav>
-{chr(10).join(sections)}
+{chr(10).join(x + (chr(10) + "    " + ad(f"equipment-mid-{i // 2 + 1}") if i % 2 == 1 and i < len(sections) - 1 else "") for i, x in enumerate(sections))}
+    {ad("equipment-bottom")}
   </div>
 </main>
 {FOOTER}"""
@@ -451,7 +466,9 @@ def supplies_page():
     <p class="eyebrow">Pantry guide</p>
     <h1 class="page-title">Supplies We Love</h1>
     <p class="lede">The salt, oils, spices and staples our recipes lean on. Keep these stocked and most recipes only need a short fresh-food list.</p>
-{chr(10).join(sections)}
+    {ad("supplies-top", "leaderboard")}
+{chr(10).join(x + (chr(10) + "    " + ad(f"supplies-mid-{i // 2 + 1}") if i % 2 == 1 and i < len(sections) - 1 else "") for i, x in enumerate(sections))}
+    {ad("supplies-bottom")}
   </div>
 </main>
 {FOOTER}"""
@@ -529,8 +546,9 @@ def learn_index():
     <p class="eyebrow">Learn</p>
     <h1 class="page-title">The science behind our recipes</h1>
     <p class="lede">Why we cook the way we do, in plain language and with sources. Where the research is early, we say so.</p>
+    {ad("learn-top", "leaderboard")}
     <div class="article-list">
-{chr(10).join(cards)}
+{chr(10).join(c + (chr(10) + "      " + ad("learn-mid") if i == 2 else "") for i, c in enumerate(cards))}
     </div>
     <p class="disclaimer">General information, not medical advice. Talk with your doctor before big changes to your diet.</p>
   </div>
@@ -551,10 +569,12 @@ def article_stub(a):
         <h2 id="sum-title">The short version</h2>
         <ul><li>{e(a["summary"])}</li><li><strong>In our recipes:</strong> {e(a["recipes"])}</li></ul>
       </section>
+      {ad("article-after-summary")}
       {placeholder("Article image", "ph ph-wide")}
       <div class="prose">
         <p><em>Full article coming soon. It will cover: {e(a["covers"][0].lower() + a["covers"][1:])}</em></p>
       </div>
+      {ad("article-before-sources")}
       <section class="sources" aria-labelledby="src-title"><h2 id="src-title" style="font-size:20px">Sources</h2>{sources_list(a["sources"])}</section>
       <p class="disclaimer">General information, not medical advice.</p>
     </article>
@@ -600,9 +620,10 @@ def recipes_index():
   <div class="narrow" style="padding-top:40px; padding-bottom:72px">
     <p class="eyebrow">Recipes</p>
     <h1 class="page-title">All recipes</h1>
-    <p class="lede">{len(rows)} recipes built around fiber, fermented foods and plant variety, listed by meal. Linked titles are ready to view; the rest are coming soon.</p>
+    <p class="lede">Recipes built around fiber, fermented foods and plant variety, listed by meal. Linked titles are ready to view; the rest are coming soon.</p>
     <nav class="toc" aria-label="Meals">{toc}</nav>
-{chr(10).join(secs)}
+    {ad("recipes-index-top", "leaderboard")}
+{chr(10).join(x + (chr(10) + "    " + ad(f"recipes-index-mid-{i // 3 + 1}") if i % 3 == 2 and i < len(secs) - 1 else "") for i, x in enumerate(secs))}
   </div>
 </main>
 {FOOTER}"""
@@ -663,6 +684,7 @@ def cookbook_page():
     </section>
     <h2 class="cat-head">Order the book</h2>
 {chr(10).join(eds)}
+    {ad("cookbook-bottom")}
     <p class="fine">Store links and prices will appear here at launch. Some links may earn us a commission at no cost to you.</p>
     <p class="disclaimer">Recipes and general information, not medical advice.</p>
   </div>
