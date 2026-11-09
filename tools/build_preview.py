@@ -99,6 +99,7 @@ RECIPES = [
         "intro": "Five minutes the night before gets you a creamy, tangy breakfast that's ready when you are. Kefir does the soaking, so there's no cooking.",
         "quick_look": "Stir 1c oats, 1c kefir, ½c milk, 2T chia, ½t vanilla, pinch cinnamon; + ½c raspberries. Chill 6hr+. Top w ½c raspberries + 2T walnuts.",
         "prep_time": "5 minutes",
+        "wait_time": "At least 6 hours, or overnight, in the refrigerator",
         "total": "6 hours 5 minutes (overnight)",
         "serves": 2,
         "equipment": ["measuring-cups", "measuring-spoons", "mason-jars"],
@@ -296,7 +297,7 @@ def write(path, content):
 
 
 # ---------------------------------------------------------------- recipe page
-def numbered(items, start=0):
+def numbered(items, start=1):
     return "\n".join(
         f'        <li><span class="num" aria-hidden="true">{i:02d}</span><p>{e(t)}</p></li>'
         for i, t in enumerate(items, start))
@@ -338,6 +339,7 @@ def recipe_page(r):
       <p class="shorthand">{e(r["quick_look"])}</p>
       <h2 class="label">Prep Time</h2>
       <p>{e(r["prep_time"])}</p>
+      {f'<h2 class="label">Waiting Time</h2>{chr(10)}      <p>{e(r["wait_time"])}</p>' if r.get("wait_time") else ""}
       <h2 class="label">Start To Finish</h2>
       <p>{e(r["total"])}</p>
       <h2 class="label">Equipment</h2>
