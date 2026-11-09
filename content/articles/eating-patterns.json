@@ -1,0 +1,23 @@
+{
+  "title": "Patterns beat single foods",
+  "status": "mockup",
+  "order": 5,
+  "covers": "Mediterranean-style eating and why habits matter more than superfoods.",
+  "summary": "Mediterranean-style eating has been linked to gut-microbe changes in older adults, and the benefits faded when people stopped.",
+  "in_our_recipes": "Why we offer a full week of meals rather than a single \"gut-health\" food.",
+  "sources": [
+    {
+      "title": "Ghosh et al., Gut 2020",
+      "url": "https://doi.org/10.1136/gutjnl-2019-319654"
+    },
+    {
+      "title": "Ross et al., Nature Reviews Microbiology 2024",
+      "url": "https://doi.org/10.1038/s41579-024-01068-4"
+    },
+    {
+      "title": "MD Anderson: beans and gut health trial",
+      "url": "https://www.mdanderson.org/newsroom/eating-beans-improves-gut-health-regulates-immune-inflammatory-processes-colorectal-cancer-survivors.h00-159623379.html"
+    }
+  ],
+  "image": ""
+}

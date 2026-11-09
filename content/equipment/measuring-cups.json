@@ -1,0 +1,25 @@
+{
+  "title": "Measuring cups",
+  "category": "Measuring",
+  "why": "Nested dry cups for oats, lentils, rice and greens.",
+  "model": "",
+  "image": "",
+  "order": 3,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

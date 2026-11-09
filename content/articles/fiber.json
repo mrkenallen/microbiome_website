@@ -1,0 +1,23 @@
+{
+  "title": "Fiber: the strongest evidence",
+  "status": "draft",
+  "order": 2,
+  "covers": "Fiber types, food sources and how much to eat.",
+  "summary": "Higher fiber intake is linked to lower risk of heart disease, type 2 diabetes and colorectal cancer. Fiber alone hasn't been shown to raise microbial diversity in the short term.",
+  "in_our_recipes": "Why most of our recipes are built on beans, lentils, whole grains and vegetables.",
+  "sources": [
+    {
+      "title": "Reynolds et al., The Lancet 2019",
+      "url": "https://doi.org/10.1016/S0140-6736(18)31809-9"
+    },
+    {
+      "title": "King's College London, 2018",
+      "url": "https://www.kcl.ac.uk/news/some-types-of-fibre-more-beneficial-for-gut-health-than-others"
+    },
+    {
+      "title": "Harvard T.H. Chan School of Public Health: Fiber",
+      "url": "https://nutritionsource.hsph.harvard.edu/carbohydrates/fiber/"
+    }
+  ],
+  "image": ""
+}

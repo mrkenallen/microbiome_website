@@ -1,0 +1,25 @@
+{
+  "title": "Measuring spoons",
+  "category": "Measuring",
+  "why": "For spices, oils and the small amounts that make a dish.",
+  "model": "",
+  "image": "",
+  "order": 4,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "8-inch chef's knife",
+  "category": "Knives and boards",
+  "why": "One sharp, all-purpose knife handles nearly every cut in these recipes.",
+  "model": "",
+  "image": "",
+  "order": 1,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

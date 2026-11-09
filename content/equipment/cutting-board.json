@@ -1,0 +1,25 @@
+{
+  "title": "Large cutting board",
+  "category": "Knives and boards",
+  "why": "A big, stable board gives you room to chop and keeps the counter clean.",
+  "model": "",
+  "image": "",
+  "order": 2,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

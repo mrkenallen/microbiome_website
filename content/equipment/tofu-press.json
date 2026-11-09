@@ -1,0 +1,25 @@
+{
+  "title": "Tofu press",
+  "category": "Prep",
+  "why": "Squeezes water out of tofu so it crisps instead of steaming.",
+  "model": "",
+  "image": "",
+  "order": 9,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

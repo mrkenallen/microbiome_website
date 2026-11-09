@@ -1,0 +1,35 @@
+{
+  "meals": [
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Side",
+    "Bread",
+    "Snack",
+    "Dessert",
+    "Condiment",
+    "Ferment",
+    "Drink"
+  ],
+  "equipment_categories": [
+    "Knives and boards",
+    "Measuring",
+    "Storage and fermenting",
+    "Prep",
+    "Pots and pans",
+    "Tools"
+  ],
+  "supply_categories": [
+    "Salt and pepper",
+    "Oils and vinegars",
+    "Spices",
+    "Pantry",
+    "Kitchen supplies"
+  ],
+  "pillars": [
+    "Fiber",
+    "Fermented",
+    "Plant diversity",
+    "Low-sugar"
+  ]
+}

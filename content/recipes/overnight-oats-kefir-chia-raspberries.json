@@ -1,0 +1,70 @@
+{
+  "title": "Overnight oats with kefir, chia and raspberries",
+  "number": 1,
+  "meal": "Breakfast",
+  "pillar": "Fermented",
+  "key_ingredients": "Kefir, oats, chia, raspberries",
+  "status": "Drafted",
+  "tags": [
+    "No cooking",
+    "Make ahead"
+  ],
+  "intro": "Five minutes the night before gets you a creamy, tangy breakfast that's ready when you are. Kefir does the soaking, so there's no cooking.",
+  "image": "",
+  "quick_look": "Stir 1 cup oats, 1 cup kefir, ½ cup milk, 2 tbsp chia, ½ tsp vanilla and a pinch of cinnamon; fold in ½ cup raspberries. Chill 6 hr or overnight. Top with ½ cup raspberries and 2 tbsp walnuts.",
+  "prep_time": "5 minutes",
+  "wait_time": "At least 6 hours, or overnight, in the refrigerator",
+  "total": "6 hours 5 minutes (overnight)",
+  "serves": 2,
+  "equipment": [
+    "measuring-cups",
+    "measuring-spoons",
+    "mason-jars"
+  ],
+  "ingredients": [
+    {
+      "amount": "1 cup",
+      "item": "Old-fashioned rolled oats"
+    },
+    {
+      "amount": "1 cup",
+      "item": "Plain unsweetened kefir"
+    },
+    {
+      "amount": "½ cup",
+      "item": "Milk of choice"
+    },
+    {
+      "amount": "2 tbsp",
+      "item": "Chia seeds"
+    },
+    {
+      "amount": "½ tsp",
+      "item": "Vanilla extract"
+    },
+    {
+      "amount": "Pinch",
+      "item": "Cinnamon"
+    },
+    {
+      "amount": "1 cup",
+      "item": "Raspberries, fresh or frozen (half in, half on top)"
+    },
+    {
+      "amount": "2 tbsp",
+      "item": "Walnuts, chopped, to serve"
+    }
+  ],
+  "prep": [
+    "Divide the oats between two pint jars, or use one bowl.",
+    "Chop the walnuts and set them aside for the morning."
+  ],
+  "steps": [
+    "Stir the oats, kefir, milk, chia, vanilla and cinnamon together.",
+    "Fold in half the raspberries.",
+    "Cover and refrigerate at least 6 hours or overnight.",
+    "Stir, then top with the remaining raspberries and the walnuts."
+  ],
+  "note": "Kefir is a fermented food, and oats, chia and raspberries bring fiber. An early Stanford study found that adults who ate more fermented foods for 10 weeks had more diverse gut microbes, though experts say the benefits aren't yet established. <a href=\"https://med.stanford.edu/news/all-news/2021/07/fermented-food-diet-increases-microbiome-diversity-lowers-inflammation.html\">Source</a>",
+  "care": "Kefir contains live cultures. If you're immunocompromised, check with your doctor before eating live-culture foods. New to fiber? Start with a half portion."
+}

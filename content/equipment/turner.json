@@ -1,0 +1,25 @@
+{
+  "title": "Flexible turner",
+  "category": "Tools",
+  "why": "Thin edge slides under tofu and rice for a clean flip.",
+  "model": "",
+  "image": "",
+  "order": 13,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

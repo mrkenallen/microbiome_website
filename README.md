@@ -45,3 +45,12 @@ Cloudflare Workers static assets, Worker `microbiome-website`, connected to this
 - Every preview page has a commented spot in `<head>` for the AdSense loader script, plus labeled `aside.ad-slot` boxes (in-content 336×250 and leaderboard 728×90).
 - To go live: paste the loader in `<head>` (generator: `head()` in `tools/build_preview.py`; hand-written: `home-preview/index.html`, `home-preview/learn/fiber/index.html`), replace each `.ad-box` with the matching `<ins class="adsbygoogle">` unit, and add `/ads.txt` with the publisher ID.
 - The public maintenance page has no ad slots.
+
+## Content editing (Decap CMS)
+
+- Editor: https://microbiomerecipes.com/admin/ — sign in with a GitHub account that has write access to this repo.
+- Content lives in `content/` as JSON: `recipes/`, `equipment/`, `supplies/`, `articles/`, and `settings/` (home featured recipe, cookbook page, lists and categories). Uploaded photos go to `assets/images/uploads/`.
+- Every save is a commit to `main`. Cloudflare then runs the Build command `python3 tools/build_preview.py` (regenerates `home-preview/` from `content/`) and deploys.
+- A recipe gets its own page once it has at least one Step. Equipment store buttons become live links once a link is entered.
+- GitHub sign-in is handled by `worker/index.js` (`/api/auth`, `/api/callback`) using the Worker secrets `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` from a GitHub OAuth App whose callback URL is `https://microbiomerecipes.com/api/callback`.
+- `content/`, `worker/` and `tools/` are not published (see `.assetsignore`).

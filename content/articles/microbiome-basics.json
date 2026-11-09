@@ -1,0 +1,23 @@
+{
+  "title": "Meet your gut microbiome",
+  "status": "mockup",
+  "order": 1,
+  "covers": "What the microbiome is and how quickly diet shifts it.",
+  "summary": "Diet can change gut microbes within about a day. Most findings so far come from small or short studies, so we treat them as early signals, not proof.",
+  "in_our_recipes": "Why we focus on everyday eating patterns instead of quick fixes.",
+  "sources": [
+    {
+      "title": "Harvard T.H. Chan School of Public Health: The Microbiome",
+      "url": "https://nutritionsource.hsph.harvard.edu/microbiome/"
+    },
+    {
+      "title": "NIH News in Health: Your Body's Bugs",
+      "url": "https://newsinhealth.nih.gov/2021/08/your-body-s-bugs"
+    },
+    {
+      "title": "David et al., Nature 2014",
+      "url": "https://doi.org/10.1038/nature12820"
+    }
+  ],
+  "image": ""
+}

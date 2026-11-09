@@ -1,0 +1,25 @@
+{
+  "title": "Rasp grater",
+  "category": "Prep",
+  "why": "Grates ginger, garlic and citrus zest in seconds.",
+  "model": "",
+  "image": "",
+  "order": 8,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

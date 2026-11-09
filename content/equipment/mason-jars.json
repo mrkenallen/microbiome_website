@@ -1,0 +1,25 @@
+{
+  "title": "Pint mason jars with lids",
+  "category": "Storage and fermenting",
+  "why": "Mix, chill and serve in one jar; also the starting point for home ferments.",
+  "model": "",
+  "image": "",
+  "order": 5,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

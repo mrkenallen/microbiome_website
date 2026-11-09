@@ -6,3 +6,6 @@ README.md
 .wrangler
 node_modules
 tools
+content
+worker
+.python-version

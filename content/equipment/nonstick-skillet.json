@@ -1,0 +1,25 @@
+{
+  "title": "12-inch nonstick skillet",
+  "category": "Pots and pans",
+  "why": "Wide enough to crisp tofu and fry rice without crowding.",
+  "model": "",
+  "image": "",
+  "order": 10,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

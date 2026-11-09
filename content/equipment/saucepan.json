@@ -1,0 +1,25 @@
+{
+  "title": "3-quart saucepan with lid",
+  "category": "Pots and pans",
+  "why": "Simmers lentils, grains and sauces.",
+  "model": "",
+  "image": "",
+  "order": 12,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "title": "Red lentil dal with spinach",
+  "number": 21,
+  "meal": "Dinner",
+  "pillar": "Fiber",
+  "key_ingredients": "Red lentils, spinach, onion, garlic",
+  "status": "Drafted",
+  "tags": [
+    "One pot"
+  ],
+  "intro": "Red lentils cook down to a creamy base in about 20 minutes. A quick pan of cumin, onion, ginger and tomato does the rest.",
+  "image": "",
+  "quick_look": "Simmer 1 cup red lentils, 3 cups water and ½ tsp turmeric, 15–20 min. Sizzle 1 tsp cumin seeds in 1 tbsp oil, 30 sec; add onion, 6–8 min; add garlic, ginger, 1 tsp coriander, ½ tsp garam masala and chili, 1 min; add 14.5 oz tomatoes, 5 min. Combine with the lentils and stir in 4 cups spinach. Season with lemon and salt.",
+  "prep_time": "[TBD — time on test cook]",
+  "wait_time": "",
+  "total": "35 minutes",
+  "serves": 4,
+  "equipment": [
+    "fine-strainer",
+    "chefs-knife",
+    "cutting-board",
+    "microplane",
+    "measuring-cups",
+    "measuring-spoons",
+    "saucepan",
+    "small-skillet",
+    "wooden-spoon"
+  ],
+  "ingredients": [
+    {
+      "amount": "1 cup",
+      "item": "Red lentils, rinsed"
+    },
+    {
+      "amount": "3 cups",
+      "item": "Water"
+    },
+    {
+      "amount": "½ tsp",
+      "item": "Ground turmeric"
+    },
+    {
+      "amount": "1 tbsp",
+      "item": "Oil or ghee"
+    },
+    {
+      "amount": "1 tsp",
+      "item": "Cumin seeds"
+    },
+    {
+      "amount": "1",
+      "item": "Onion, diced"
+    },
+    {
+      "amount": "3 cloves",
+      "item": "Garlic, minced"
+    },
+    {
+      "amount": "1 tbsp",
+      "item": "Fresh ginger, grated"
+    },
+    {
+      "amount": "1 tsp",
+      "item": "Ground coriander"
+    },
+    {
+      "amount": "½ tsp",
+      "item": "Garam masala"
+    },
+    {
+      "amount": "Pinch",
+      "item": "Chili flakes"
+    },
+    {
+      "amount": "14.5 oz can",
+      "item": "Diced tomatoes"
+    },
+    {
+      "amount": "4 cups",
+      "item": "Baby spinach"
+    },
+    {
+      "amount": "1 tbsp",
+      "item": "Lemon juice"
+    },
+    {
+      "amount": "To serve",
+      "item": "Salt, cilantro, plain yogurt and brown rice"
+    }
+  ],
+  "prep": [
+    "Rinse the lentils in a strainer until the water runs mostly clear.",
+    "Dice the onion, mince the garlic and grate the ginger."
+  ],
+  "steps": [
+    "Simmer the lentils, water and turmeric 15–20 minutes, stirring now and then, until soft.",
+    "Meanwhile, heat the oil and sizzle the cumin seeds 30 seconds.",
+    "Add the onion and cook 6–8 minutes.",
+    "Add the garlic, ginger, coriander, garam masala and chili; cook 1 minute.",
+    "Add the tomatoes and simmer 5 minutes.",
+    "Stir the tomato mixture into the lentils. Add the spinach and stir until wilted.",
+    "Season with lemon juice and salt. Serve with cilantro, a spoon of yogurt and brown rice."
+  ],
+  "note": "",
+  "care": "New to beans and lentils? Start with a smaller portion and drink plenty of water."
+}

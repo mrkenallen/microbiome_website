@@ -1,0 +1,23 @@
+{
+  "title": "Fermented foods: promising, early",
+  "status": "mockup",
+  "order": 3,
+  "covers": "Yogurt, kefir, kimchi, sauerkraut, miso and tempeh.",
+  "summary": "An early Stanford study found a fermented-food diet raised gut microbial diversity. Experts say the health benefits aren't yet established.",
+  "in_our_recipes": "Why kefir, kimchi and sauerkraut show up often, and why we add kimchi at the end of cooking to keep its live cultures.",
+  "sources": [
+    {
+      "title": "Wastyk et al., Cell 2021",
+      "url": "https://doi.org/10.1016/j.cell.2021.06.019"
+    },
+    {
+      "title": "Marco et al., Nature Reviews Gastroenterology & Hepatology 2021 (ISAPP)",
+      "url": "https://doi.org/10.1038/s41575-020-00390-5"
+    },
+    {
+      "title": "American Gastroenterological Association: The gut microbiome",
+      "url": "https://patient.gastro.org/the-gut-microbiome-what-it-is/"
+    }
+  ],
+  "image": ""
+}

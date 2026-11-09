@@ -1,0 +1,25 @@
+{
+  "title": "8-inch skillet",
+  "category": "Pots and pans",
+  "why": "Right-sized for blooming spices in oil.",
+  "model": "",
+  "image": "",
+  "order": 11,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

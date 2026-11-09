@@ -1,0 +1,19 @@
+{
+  "title": "Plant variety and \"30 plants a week\"",
+  "status": "mockup",
+  "order": 4,
+  "covers": "Counting plant types and easy ways to add variety.",
+  "summary": "Researchers are testing whether eating 30 or more plant types a week helps the gut. For now it's an association, not a proven cause.",
+  "in_our_recipes": "Why our recipes mix several vegetables, grains, nuts, seeds and herbs in one dish.",
+  "sources": [
+    {
+      "title": "McDonald et al., mSystems 2018",
+      "url": "https://doi.org/10.1128/mSystems.00031-18"
+    },
+    {
+      "title": "King's College London, 2021",
+      "url": "https://www.kcl.ac.uk/news/landmark-study-link-gut-microbes-diet-illnesses"
+    }
+  ],
+  "image": ""
+}

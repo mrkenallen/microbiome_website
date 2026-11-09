@@ -1,0 +1,25 @@
+{
+  "title": "Wooden spoon",
+  "category": "Tools",
+  "why": "Stirs dal and sauces without scratching the pan.",
+  "model": "",
+  "image": "",
+  "order": 14,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

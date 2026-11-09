@@ -13,203 +13,70 @@ P = "/home-preview"  # unlisted preview area; nothing public links here
 
 e = html.escape
 
-# ---------------------------------------------------------------- equipment
-# id: (name, category, why)
-EQUIPMENT = {
-    "chefs-knife": ("8-inch chef's knife", "Knives and boards",
-                    "One sharp, all-purpose knife handles nearly every cut in these recipes."),
-    "cutting-board": ("Large cutting board", "Knives and boards",
-                      "A big, stable board gives you room to chop and keeps the counter clean."),
-    "measuring-cups": ("Measuring cups", "Measuring",
-                       "Nested dry cups for oats, lentils, rice and greens."),
-    "measuring-spoons": ("Measuring spoons", "Measuring",
-                         "For spices, oils and the small amounts that make a dish."),
-    "mason-jars": ("Pint mason jars with lids", "Storage and fermenting",
-                   "Mix, chill and serve in one jar; also the starting point for home ferments."),
-    "mixing-bowl": ("Mixing bowl set", "Prep",
-                    "Nesting bowls for mixing, tossing and holding prepped ingredients."),
-    "fine-strainer": ("Fine-mesh strainer", "Prep",
-                      "Rinses lentils and beans without losing the small ones."),
-    "microplane": ("Rasp grater", "Prep",
-                   "Grates ginger, garlic and citrus zest in seconds."),
-    "tofu-press": ("Tofu press", "Prep",
-                   "Squeezes water out of tofu so it crisps instead of steaming."),
-    "nonstick-skillet": ("12-inch nonstick skillet", "Pots and pans",
-                         "Wide enough to crisp tofu and fry rice without crowding."),
-    "small-skillet": ("8-inch skillet", "Pots and pans",
-                      "Right-sized for blooming spices in oil."),
-    "saucepan": ("3-quart saucepan with lid", "Pots and pans",
-                 "Simmers lentils, grains and sauces."),
-    "turner": ("Flexible turner", "Tools",
-               "Thin edge slides under tofu and rice for a clean flip."),
-    "wooden-spoon": ("Wooden spoon", "Tools",
-                     "Stirs dal and sauces without scratching the pan."),
-}
+# ---------------------------------------------------------------- content (edited in Decap CMS at /admin)
+import json
+import glob
+
+CONTENT = os.path.join(ROOT, "content")
+
+
+def _load_folder(name):
+    items = []
+    for f in sorted(glob.glob(os.path.join(CONTENT, name, "*.json"))):
+        d = json.load(open(f, encoding="utf-8"))
+        d["slug"] = os.path.splitext(os.path.basename(f))[0]
+        items.append(d)
+    return items
+
+
+def _load(name):
+    return json.load(open(os.path.join(CONTENT, "settings", name + ".json"), encoding="utf-8"))
+
+
+TAX = _load("taxonomy")
+MEAL_ORDER = TAX["meals"]
 RETAILERS = ["Walmart", "Amazon", "Target"]
 
-# ---------------------------------------------------------------- supplies
-# category -> list of (name, note, used_in)
-SUPPLIES = [
-    ("Salt and pepper", [
-        ("Kosher salt", "Coarse and easy to pinch; the everyday cooking salt.", "All recipes"),
-        ("Fine sea salt", "Dissolves fast in dressings and baking.", "Dressings, baking"),
-        ("Canning and pickling salt", "Pure salt with no iodine or anti-caking agents, for ferments.", "Sauerkraut"),
-        ("Black peppercorns", "Whole peppercorns for a pepper grinder; fresher than pre-ground.", "All recipes"),
-    ]),
-    ("Oils and vinegars", [
-        ("Canola oil", "Neutral flavor and a high smoke point for searing and stir-frying.", "Kimchi fried rice"),
-        ("Extra-virgin olive oil", "For roasting, dressings and finishing.", "Lentil and beet salad, white bean soup"),
-        ("Toasted sesame oil", "A finishing oil; a teaspoon adds a lot of flavor.", "Kimchi fried rice, kimchi eggs"),
-        ("Apple cider vinegar", "Bright, mild acid for marinades and dressings.", "Tempeh Reuben"),
-        ("Red wine vinegar", "Sharper acid for vinaigrettes.", "Lentil and beet salad"),
-    ]),
-    ("Spices", [
-        ("Ground cumin", "Warm and earthy; a base for beans and lentils.", "Bean and lentil dishes"),
-        ("Cumin seeds", "Whole seeds to sizzle in oil before adding other ingredients.", "Red lentil dal"),
-        ("Ground turmeric", "Golden color and mild bitterness for dal and rice.", "Red lentil dal"),
-        ("Ground coriander", "Citrusy, gentle spice that pairs with cumin.", "Red lentil dal"),
-        ("Garam masala", "A warm spice blend, added near the end of cooking.", "Red lentil dal"),
-        ("Smoked paprika", "Smoky depth without meat.", "Tempeh Reuben"),
-        ("Red chili flakes", "Adjustable heat.", "Red lentil dal"),
-        ("Ground cinnamon", "Warmth for oats and puddings.", "Overnight oats"),
-        ("Caraway seeds", "The classic sauerkraut and rye-bread spice.", "Sauerkraut, rye breads"),
-        ("Dried thyme", "An easy stand-in when fresh herbs aren't on hand.", "White bean soup"),
-    ]),
-    ("Pantry", [
-        ("Low-sodium soy sauce", "Salty, savory seasoning with less sodium.", "Kimchi fried rice, tempeh Reuben"),
-        ("Gochujang", "Fermented Korean chili paste.", "Kimchi fried rice"),
-        ("Dijon mustard", "Emulsifies and sharpens vinaigrettes.", "Lentil and beet salad"),
-        ("Pure vanilla extract", "For oats, puddings and baking.", "Overnight oats, chia pudding"),
-        ("Cornstarch", "A light coating that helps tofu crisp.", "Kimchi fried rice"),
-        ("Low-sodium vegetable broth", "A soup base that leaves room to season.", "White bean soup"),
-    ]),
-    ("Kitchen supplies", [
-        ("Parchment paper", "Lines sheet pans for roasting with less sticking.", "Roasted vegetables"),
-        ("Paper towels", "Blots tofu, greens and washed produce dry.", "Kimchi fried rice"),
-        ("Zip-top storage bags", "Holds prepped vegetables and leftovers.", "Meal prep"),
-    ]),
-]
+_equip = sorted(_load_folder("equipment"), key=lambda d: (TAX["equipment_categories"].index(d["category"]) if d["category"] in TAX["equipment_categories"] else 99, d.get("order", 999), d["title"]))
+EQUIPMENT = {d["slug"]: (d["title"], d["category"], d.get("why", "")) for d in _equip}
+EQUIP_DATA = {d["slug"]: d for d in _equip}
 
-# ---------------------------------------------------------------- recipes
-RECIPES = [
-    {
-        "slug": "overnight-oats-kefir-chia-raspberries",
-        "title": "Overnight oats with kefir, chia and raspberries",
-        "meal": "Breakfast", "pillar": "Fermented", "tags": ["No cooking", "Make ahead"],
-        "intro": "Five minutes the night before gets you a creamy, tangy breakfast that's ready when you are. Kefir does the soaking, so there's no cooking.",
-        "quick_look": "Stir 1 cup oats, 1 cup kefir, ½ cup milk, 2 tbsp chia, ½ tsp vanilla and a pinch of cinnamon; fold in ½ cup raspberries. Chill 6 hr or overnight. Top with ½ cup raspberries and 2 tbsp walnuts.",
-        "prep_time": "5 minutes",
-        "wait_time": "At least 6 hours, or overnight, in the refrigerator",
-        "total": "6 hours 5 minutes (overnight)",
-        "serves": 2,
-        "equipment": ["measuring-cups", "measuring-spoons", "mason-jars"],
-        "ingredients": [
-            ("1 cup", "Old-fashioned rolled oats"),
-            ("1 cup", "Plain unsweetened kefir"),
-            ("½ cup", "Milk of choice"),
-            ("2 tbsp", "Chia seeds"),
-            ("½ tsp", "Vanilla extract"),
-            ("Pinch", "Cinnamon"),
-            ("1 cup", "Raspberries, fresh or frozen (half in, half on top)"),
-            ("2 tbsp", "Walnuts, chopped, to serve"),
-        ],
-        "prep": [
-            "Divide the oats between two pint jars, or use one bowl.",
-            "Chop the walnuts and set them aside for the morning.",
-        ],
-        "steps": [
-            "Stir the oats, kefir, milk, chia, vanilla and cinnamon together.",
-            "Fold in half the raspberries.",
-            "Cover and refrigerate at least 6 hours or overnight.",
-            "Stir, then top with the remaining raspberries and the walnuts.",
-        ],
-        "note": ('Kefir is a fermented food, and oats, chia and raspberries bring fiber. An early Stanford study found that adults who ate more fermented foods for 10 weeks had more diverse gut microbes, though experts say the benefits aren\'t yet established. '
-                 '<a href="https://med.stanford.edu/news/all-news/2021/07/fermented-food-diet-increases-microbiome-diversity-lowers-inflammation.html">Source</a>'),
-        "care": "Kefir contains live cultures. If you're immunocompromised, check with your doctor before eating live-culture foods. New to fiber? Start with a half portion.",
-    },
-    {
-        "slug": "kimchi-fried-brown-rice-tofu",
-        "title": "Kimchi fried brown rice with tofu",
-        "meal": "Dinner", "pillar": "Fermented", "tags": ["30 minutes or less"],
-        "intro": "Day-old brown rice, crisp tofu and kimchi two ways: half cooked into the rice for depth, half folded in at the end so it stays crunchy.",
-        "quick_look": "Toss 14 oz cubed tofu with 1 tbsp cornstarch; crisp in 1 tbsp oil, 8–10 min; set aside. Add 1 tbsp oil, garlic, scallion whites and half the kimchi, 2 min. Add 1 cup peas and carrots and 3 cups cold rice, 4–5 min. Stir in 1 tbsp soy sauce, 1 tsp gochujang, 2 tbsp kimchi juice and the tofu. Off heat: remaining kimchi, 1 tsp sesame oil, scallion greens.",
-        "prep_time": "[TBD — time on test cook]",
-        "total": "25 minutes",
-        "serves": 3,
-        "equipment": ["tofu-press", "chefs-knife", "cutting-board", "measuring-cups", "measuring-spoons", "nonstick-skillet", "turner"],
-        "ingredients": [
-            ("14 oz", "Extra-firm tofu, pressed and cubed"),
-            ("1 tbsp", "Cornstarch"),
-            ("2 tbsp", "Neutral oil, divided"),
-            ("2 cloves", "Garlic, minced"),
-            ("3", "Scallions, whites and greens separated"),
-            ("1 cup + 2 tbsp", "Kimchi, chopped, plus kimchi juice"),
-            ("1 cup", "Frozen peas and carrots"),
-            ("3 cups", "Cooked brown rice, chilled"),
-            ("1 tbsp", "Low-sodium soy sauce"),
-            ("1 tsp", "Gochujang (optional)"),
-            ("1 tsp", "Toasted sesame oil"),
-            ("To serve", "3 fried eggs and sesame seeds (optional)"),
-        ],
-        "prep": [
-            "Press the tofu, then cut it into bite-size cubes.",
-            "Mince the garlic. Slice the scallions, keeping the whites and greens apart.",
-            "Chop the kimchi and save 2 tablespoons of its juice.",
-        ],
-        "steps": [
-            "Toss the tofu with the cornstarch.",
-            "Heat 1 tablespoon oil over medium-high heat and crisp the tofu, 8–10 minutes. Set aside.",
-            "Add the remaining oil, the garlic, scallion whites and half the kimchi; cook 2 minutes.",
-            "Add the peas and carrots, then the rice. Press it into the pan and cook 4–5 minutes until crisp in spots.",
-            "Stir in the soy sauce, gochujang and kimchi juice. Return the tofu.",
-            "Off the heat, fold in the remaining kimchi, sesame oil and scallion greens.",
-            "Top with fried eggs and sesame seeds, if using.",
-        ],
-        "care": "Cooking kimchi kills its live cultures, which is why half goes in at the end.",
-    },
-    {
-        "slug": "red-lentil-dal-spinach",
-        "title": "Red lentil dal with spinach",
-        "meal": "Dinner", "pillar": "Fiber", "tags": ["One pot"],
-        "intro": "Red lentils cook down to a creamy base in about 20 minutes. A quick pan of cumin, onion, ginger and tomato does the rest.",
-        "quick_look": "Simmer 1 cup red lentils, 3 cups water and ½ tsp turmeric, 15–20 min. Sizzle 1 tsp cumin seeds in 1 tbsp oil, 30 sec; add onion, 6–8 min; add garlic, ginger, 1 tsp coriander, ½ tsp garam masala and chili, 1 min; add 14.5 oz tomatoes, 5 min. Combine with the lentils and stir in 4 cups spinach. Season with lemon and salt.",
-        "prep_time": "[TBD — time on test cook]",
-        "total": "35 minutes",
-        "serves": 4,
-        "equipment": ["fine-strainer", "chefs-knife", "cutting-board", "microplane", "measuring-cups", "measuring-spoons", "saucepan", "small-skillet", "wooden-spoon"],
-        "ingredients": [
-            ("1 cup", "Red lentils, rinsed"),
-            ("3 cups", "Water"),
-            ("½ tsp", "Ground turmeric"),
-            ("1 tbsp", "Oil or ghee"),
-            ("1 tsp", "Cumin seeds"),
-            ("1", "Onion, diced"),
-            ("3 cloves", "Garlic, minced"),
-            ("1 tbsp", "Fresh ginger, grated"),
-            ("1 tsp", "Ground coriander"),
-            ("½ tsp", "Garam masala"),
-            ("Pinch", "Chili flakes"),
-            ("14.5 oz can", "Diced tomatoes"),
-            ("4 cups", "Baby spinach"),
-            ("1 tbsp", "Lemon juice"),
-            ("To serve", "Salt, cilantro, plain yogurt and brown rice"),
-        ],
-        "prep": [
-            "Rinse the lentils in a strainer until the water runs mostly clear.",
-            "Dice the onion, mince the garlic and grate the ginger.",
-        ],
-        "steps": [
-            "Simmer the lentils, water and turmeric 15–20 minutes, stirring now and then, until soft.",
-            "Meanwhile, heat the oil and sizzle the cumin seeds 30 seconds.",
-            "Add the onion and cook 6–8 minutes.",
-            "Add the garlic, ginger, coriander, garam masala and chili; cook 1 minute.",
-            "Add the tomatoes and simmer 5 minutes.",
-            "Stir the tomato mixture into the lentils. Add the spinach and stir until wilted.",
-            "Season with lemon juice and salt. Serve with cilantro, a spoon of yogurt and brown rice.",
-        ],
-        "care": "New to beans and lentils? Start with a smaller portion and drink plenty of water.",
-    },
-]
+_sup = _load_folder("supplies")
+SUPPLIES = []
+for _c in TAX["supply_categories"] + sorted({d["category"] for d in _sup} - set(TAX["supply_categories"])):
+    _items = sorted([d for d in _sup if d["category"] == _c], key=lambda d: (d.get("order", 999), d["title"]))
+    if _items:
+        SUPPLIES.append((_c, [(d["title"], d.get("note", ""), d.get("used_in", "")) for d in _items]))
+
+ALL_RECIPES = sorted(_load_folder("recipes"), key=lambda d: (d.get("number") or 9999, d["title"]))
+# A recipe gets its own page once it has steps.
+RECIPES = []
+for _r in ALL_RECIPES:
+    if _r.get("steps"):
+        r = dict(_r)
+        r["ingredients"] = [(i.get("amount", ""), i.get("item", "")) for i in r.get("ingredients", [])]
+        r.setdefault("serves", "")
+        r["tags"] = r.get("tags") or []
+        r["equipment"] = [x for x in (r.get("equipment") or []) if x in EQUIPMENT]
+        RECIPES.append(r)
+
+ARTICLES = []
+for _a in sorted(_load_folder("articles"), key=lambda d: (d.get("order", 999), d["title"])):
+    ARTICLES.append({"slug": _a["slug"], "title": _a["title"], "status": _a.get("status", "mockup"),
+                     "covers": _a.get("covers", ""), "summary": _a.get("summary", ""),
+                     "recipes": _a.get("in_our_recipes", ""),
+                     "sources": [(x["title"], x["url"]) for x in _a.get("sources", [])]})
+
+_b = _load("book")
+BOOK = {"title": _b["title"], "subtitle": _b["subtitle"], "authors": _b["authors"], "blurb": _b["blurb"],
+        "inside": _b["inside"], "editions": [(x["name"], x["description"], x["price"], x["stores"]) for x in _b["editions"]]}
+HOME = _load("home")
+SUPPLY_IMG = {d["title"]: d.get("image") for d in _sup}
+
+
+def _rows():
+    """Recipe index rows: (number, title, meal, pillar, key ingredients, status)."""
+    return [(r.get("number", ""), r["title"], r["meal"], r["pillar"], r.get("key_ingredients", ""), r.get("status", "")) for r in ALL_RECIPES]
 
 # ---------------------------------------------------------------- shared chrome
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -288,8 +155,24 @@ def soon_button(label, uid):
 
 
 def retailer_buttons(item_id, prefix):
-    return '<div class="store-row">' + "".join(
-        soon_button(f"{r} · $XX.XX", f"{prefix}-{item_id}-{r.lower()}") for r in RETAILERS) + "</div>"
+    """Store buttons for a piece of equipment. A store with a URL becomes a live link; otherwise "Coming soon"."""
+    stores = {x.get("store"): x for x in EQUIP_DATA.get(item_id, {}).get("stores", [])}
+    out = []
+    for r in RETAILERS:
+        st = stores.get(r, {})
+        price = st.get("price") or "$XX.XX"
+        if st.get("url"):
+            out.append(f'<div class="soon-btn"><a class="btn-store" rel="sponsored noopener" target="_blank" href="{e(st["url"])}">{e(r)} · {e(price)}</a></div>')
+        else:
+            out.append(soon_button(f"{r} · {price}", f"{prefix}-{item_id}-{r.lower()}"))
+    return '<div class="store-row">' + "".join(out) + "</div>"
+
+
+def media(src, label, cls="ph"):
+    """An uploaded image if one is set in the CMS, otherwise a gray placeholder."""
+    if src:
+        return f'<img class="{cls.replace("ph ", "img ")}" src="{e(src)}" alt="{e(label)}" loading="lazy">'
+    return placeholder(label, cls)
 
 
 def grocery_buttons(prefix):
@@ -338,7 +221,7 @@ def recipe_page(r):
           {grocery_buttons(s + "-groceries")}
         </div>
       </div>
-      {placeholder("Finished dish", "ph ph-hero")}
+      {media(r.get("image"), r["title"], "ph ph-hero")}
     </section>
     {ad("recipe-top", "leaderboard")}
   </div>
@@ -417,11 +300,11 @@ def equipment_page():
                 continue
             uses = ", ".join(f'<a href="{P}/recipes/{r["slug"]}/">{e(r["title"])}</a>' for r in used.get(k, []))
             cards.append(f"""      <article class="pick" id="{k}">
-        {placeholder(n, "ph ph-pick")}
+        {media(EQUIP_DATA[k].get("image"), n, "ph ph-pick")}
         <div class="pick-body">
           <p class="pick-label">Our pick</p>
           <h3>{e(n)}</h3>
-          <p class="pick-model">[Brand and model — to be chosen]</p>
+          <p class="pick-model">{e(EQUIP_DATA[k].get("model") or "[Brand and model — to be chosen]")}</p>
           <p>{e(w)}</p>
           {retailer_buttons(k, "eq")}
           {f'<p class="fine">Used in: {uses}</p>' if uses else ''}
@@ -456,7 +339,7 @@ def supplies_page():
         for n, note, used in items:
             iid = cid + "-" + n.lower().replace(" ", "-").replace("'", "")
             rows.append(f"""      <li class="supply">
-        {placeholder(n, "ph ph-thumb")}
+        {media(SUPPLY_IMG.get(n), n, "ph ph-thumb")}
         <div class="supply-text"><h3>{e(n)}</h3><p>{e(note)}</p><p class="fine">Used in: {e(used)}</p></div>
         {grocery_buttons(iid)}
       </li>""")
@@ -474,53 +357,6 @@ def supplies_page():
 </main>
 {FOOTER}"""
     write(f"{P}/supplies/index.html", body)
-
-
-# ---------------------------------------------------------------- articles (Learn)
-# Summaries come from the book outline's Part 1 research table; sources are the ones cited there.
-ARTICLES = [
-    {"slug": "microbiome-basics", "title": "Meet your gut microbiome", "status": "mockup",
-     "covers": "What the microbiome is and how quickly diet shifts it.",
-     "summary": "Diet can change gut microbes within about a day. Most findings so far come from small or short studies, so we treat them as early signals, not proof.",
-     "recipes": "Why we focus on everyday eating patterns instead of quick fixes.",
-     "sources": [("Harvard T.H. Chan School of Public Health: The Microbiome", "https://nutritionsource.hsph.harvard.edu/microbiome/"),
-                 ("NIH News in Health: Your Body's Bugs", "https://newsinhealth.nih.gov/2021/08/your-body-s-bugs"),
-                 ("David et al., Nature 2014", "https://doi.org/10.1038/nature12820")]},
-    {"slug": "fiber", "title": "Fiber: the strongest evidence", "status": "draft",
-     "covers": "Fiber types, food sources and how much to eat.",
-     "summary": "Higher fiber intake is linked to lower risk of heart disease, type 2 diabetes and colorectal cancer. Fiber alone hasn't been shown to raise microbial diversity in the short term.",
-     "recipes": "Why most of our recipes are built on beans, lentils, whole grains and vegetables.",
-     "sources": [("Reynolds et al., The Lancet 2019", "https://doi.org/10.1016/S0140-6736(18)31809-9"),
-                 ("King's College London, 2018", "https://www.kcl.ac.uk/news/some-types-of-fibre-more-beneficial-for-gut-health-than-others"),
-                 ("Harvard T.H. Chan School of Public Health: Fiber", "https://nutritionsource.hsph.harvard.edu/carbohydrates/fiber/")]},
-    {"slug": "fermented-foods", "title": "Fermented foods: promising, early", "status": "mockup",
-     "covers": "Yogurt, kefir, kimchi, sauerkraut, miso and tempeh.",
-     "summary": "An early Stanford study found a fermented-food diet raised gut microbial diversity. Experts say the health benefits aren't yet established.",
-     "recipes": "Why kefir, kimchi and sauerkraut show up often, and why we add kimchi at the end of cooking to keep its live cultures.",
-     "sources": [("Wastyk et al., Cell 2021", "https://doi.org/10.1016/j.cell.2021.06.019"),
-                 ("Marco et al., Nature Reviews Gastroenterology & Hepatology 2021 (ISAPP)", "https://doi.org/10.1038/s41575-020-00390-5"),
-                 ("American Gastroenterological Association: The gut microbiome", "https://patient.gastro.org/the-gut-microbiome-what-it-is/")]},
-    {"slug": "plant-variety", "title": "Plant variety and \"30 plants a week\"", "status": "mockup",
-     "covers": "Counting plant types and easy ways to add variety.",
-     "summary": "Researchers are testing whether eating 30 or more plant types a week helps the gut. For now it's an association, not a proven cause.",
-     "recipes": "Why our recipes mix several vegetables, grains, nuts, seeds and herbs in one dish.",
-     "sources": [("McDonald et al., mSystems 2018", "https://doi.org/10.1128/mSystems.00031-18"),
-                 ("King's College London, 2021", "https://www.kcl.ac.uk/news/landmark-study-link-gut-microbes-diet-illnesses")]},
-    {"slug": "eating-patterns", "title": "Patterns beat single foods", "status": "mockup",
-     "covers": "Mediterranean-style eating and why habits matter more than superfoods.",
-     "summary": "Mediterranean-style eating has been linked to gut-microbe changes in older adults, and the benefits faded when people stopped.",
-     "recipes": "Why we offer a full week of meals rather than a single \"gut-health\" food.",
-     "sources": [("Ghosh et al., Gut 2020", "https://doi.org/10.1136/gutjnl-2019-319654"),
-                 ("Ross et al., Nature Reviews Microbiology 2024", "https://doi.org/10.1038/s41579-024-01068-4"),
-                 ("MD Anderson: beans and gut health trial", "https://www.mdanderson.org/newsroom/eating-beans-improves-gut-health-regulates-immune-inflammatory-processes-colorectal-cancer-survivors.h00-159623379.html")]},
-    {"slug": "start-slow", "title": "Start slow, stay safe", "status": "mockup",
-     "covers": "Ramping up fiber, drinking water, and who should check with a doctor first.",
-     "summary": "Add fiber gradually and drink water with it. People with IBS, IBD or strictures, those taking MAOIs, anyone watching sodium, and people who are immunocompromised should take extra care with high-fiber and fermented foods.",
-     "recipes": "Why our recipes carry \"Good to know\" notes and suggest half portions for beginners.",
-     "sources": [("Ascension, 2026", "https://healthcare.ascension.org/blog/2026/08/flpen-fibermaxxing-too-much-fiber"),
-                 ("UF/IFAS: Sauerkraut", "https://ask.ifas.ufl.edu/publication/FS474/pdf"),
-                 ("Mayo Clinic: Probiotics", "https://mayoclinic.org/healthy-lifestyle/consumer-health/expert-answers/probiotics/faq-20058065")]},
-]
 
 
 def sources_list(srcs):
@@ -586,14 +422,12 @@ def article_stub(a):
 
 
 # ---------------------------------------------------------------- recipe index (table of contents)
-import json
-MEAL_ORDER = ["Breakfast", "Lunch", "Dinner", "Side", "Bread", "Snack", "Dessert", "Condiment", "Ferment", "Drink"]
 MEAL_HEAD = {"Side": "Sides", "Bread": "Breads", "Snack": "Snacks", "Dessert": "Desserts",
              "Condiment": "Condiments", "Ferment": "Ferments", "Drink": "Fermented drinks"}
 
 
 def recipes_index():
-    rows = json.load(open(os.path.join(ROOT, "tools", "recipe_list.json"), encoding="utf-8"))["site"]
+    rows = _rows()
     built = {r["title"]: r["slug"] for r in RECIPES}
     groups = {}
     for num, title, meal, pillar, ing, status in rows:
@@ -631,29 +465,6 @@ def recipes_index():
     write(f"{P}/recipes/index.html", body)
 
 
-# ---------------------------------------------------------------- cookbook (book) page
-BOOK = {
-    "title": "The Microbiome Cookbook",
-    "subtitle": "Good Food, Good Gut, Good Health",
-    "authors": "Crystal Allen and Ken Allen",
-    "blurb": [
-        "Eating for your gut doesn't take supplements, special tests or a pantry full of powders. It takes good food: beans and whole grains, vegetables in every color, and the tangy, living flavors of yogurt, kefir, kimchi and sauerkraut.",
-        "In <em>The Microbiome Cookbook</em>, Crystal Allen and Ken Allen bring together 150 recipes you won't find on the website, from weekday breakfasts to slow-simmered dinners, fresh breads and homemade fermented drinks. Every recipe carries a short gut-health note that tells you what the research shows, and where it's still early.",
-        "Six plain-language science chapters explain the why: what your gut microbiome is, why fiber has the strongest evidence, what we know (and don't) about fermented foods, and how to add more fiber comfortably. A hands-on fermenting guide walks you through the base methods step by step, with the safety rules that matter.",
-    ],
-    "inside": ["150 book-only recipes, from breakfast to fermented drinks",
-               "Six short science chapters, with sources",
-               "A step-by-step guide to fermenting at home",
-               "A cited gut-health note on every recipe"],
-    "editions": [
-        ("Print edition", "Lay-flat, so it stays open on the counter while you cook.", "[PRICE]",
-         ["Amazon", "Barnes & Noble", "Bookshop.org", "Books-A-Million"]),
-        ("Ebook", "Read on your phone, tablet or e-reader.", "[PRICE]",
-         ["Kindle", "Nook", "Apple Books", "Kobo", "Google Play Books"]),
-    ],
-}
-
-
 def cookbook_page():
     b = BOOK
     eds = []
@@ -668,7 +479,7 @@ def cookbook_page():
 <main id="main">
   <div class="wrap">
     <section class="book-hero" aria-labelledby="book-h">
-      {placeholder("Book cover", "ph ph-cover")}
+      {media(_b.get("cover"), "Book cover: " + b["title"], "ph ph-cover")}
       <div class="book-info">
         <p class="eyebrow">The cookbook</p>
         <h1 id="book-h" class="page-title" style="margin:0">{e(b["title"])}</h1>
@@ -710,7 +521,7 @@ FERMENT_SAFETY = [
 
 
 def fermenting_page():
-    rows = json.load(open(os.path.join(ROOT, "tools", "recipe_list.json"), encoding="utf-8"))["site"]
+    rows = _rows()
     built = {r["title"]: r["slug"] for r in RECIPES}
 
     def cards(meal):
@@ -837,6 +648,57 @@ def about_page():
     write(f"{P}/about/index.html", body)
 
 
+
+# ---------------------------------------------------------------- home: featured recipe (chosen in CMS settings)
+def home_featured():
+    path = os.path.join(ROOT, P.lstrip("/"), "index.html")
+    html_ = open(path, encoding="utf-8").read()
+    start, end = "<!-- FEATURED:START -->", "<!-- FEATURED:END -->"
+    if start not in html_:
+        return
+    r = next((x for x in RECIPES if x["slug"] == HOME.get("featured_recipe")), RECIPES[0] if RECIPES else None)
+    if not r:
+        return
+    timing = r.get("total", "")
+    if r.get("wait_time"):
+        timing = (r.get("prep_time", "") + " + overnight") if "overnight" in r.get("wait_time", "").lower() else timing
+    desc = HOME.get("featured_description") or r.get("intro", "")
+    card = f"""{start}
+      <a class="featured" href="{P}/recipes/{r["slug"]}/" aria-labelledby="featured-title">
+        {media(r.get("image"), r["title"], "ph featured-img")}
+        <div class="featured-body">
+          <p class="featured-label">Featured recipe</p>
+          <h2 id="featured-title" class="featured-title">{e(r["title"])}</h2>
+          <p class="featured-desc">{e(desc)}</p>
+          <div class="tags"><span class="tag tag-pillar">{e(r["pillar"])}</span><span class="tag tag-plain">{e(r["meal"])}</span><span class="tag tag-plain">{e(timing)}</span></div>
+          <span class="featured-cta">Get the recipe →</span>
+        </div>
+      </a>
+      {end}"""
+    i, j = html_.index(start), html_.index(end) + len(end)
+    open(path, "w", encoding="utf-8").write(html_[:i] + card + html_[j:])
+    print("updated featured recipe on", P + "/")
+
+
+# ---------------------------------------------------------------- keep the editor's dropdowns in sync with the taxonomy settings
+def sync_admin_options():
+    import re as _re
+    path = os.path.join(ROOT, "admin", "config.yml")
+    if not os.path.exists(path):
+        return
+    cfg = open(path, encoding="utf-8").read()
+    pairs = {"name: meal, widget: select": TAX["meals"], "name: pillar, widget: select": TAX["pillars"]}
+    for key, vals in pairs.items():
+        cfg = _re.sub(_re.escape(key) + r", options: \[[^\]]*\]", key + ", options: " + json.dumps(vals, ensure_ascii=False), cfg)
+    # category selects appear in the equipment and supplies collections, in that order
+    parts = cfg.split("name: category, widget: select, options: ")
+    if len(parts) == 3:
+        def repl(chunk, vals):
+            return json.dumps(vals, ensure_ascii=False) + chunk[chunk.index("]") + 1:]
+        cfg = parts[0] + "name: category, widget: select, options: " + repl(parts[1], TAX["equipment_categories"]) \
+            + "name: category, widget: select, options: " + repl(parts[2], TAX["supply_categories"])
+    open(path, "w", encoding="utf-8").write(cfg)
+
 if __name__ == "__main__":
     for r in RECIPES:
         recipe_page(r)
@@ -847,6 +709,8 @@ if __name__ == "__main__":
     cookbook_page()
     fermenting_page()
     about_page()
+    home_featured()
+    sync_admin_options()
     for a in ARTICLES:
         if a["slug"] != "fiber":  # the fiber article is hand-written
             article_stub(a)

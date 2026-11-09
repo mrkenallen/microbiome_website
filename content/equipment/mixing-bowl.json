@@ -1,0 +1,25 @@
+{
+  "title": "Mixing bowl set",
+  "category": "Prep",
+  "why": "Nesting bowls for mixing, tossing and holding prepped ingredients.",
+  "model": "",
+  "image": "",
+  "order": 6,
+  "stores": [
+    {
+      "store": "Walmart",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Amazon",
+      "price": "",
+      "url": ""
+    },
+    {
+      "store": "Target",
+      "price": "",
+      "url": ""
+    }
+  ]
+}

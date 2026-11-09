@@ -1,0 +1,211 @@
+# Decap CMS configuration — https://decapcms.org/docs/configuration-options/
+# Editors log in with GitHub. Anyone with write access to the repo can edit.
+backend:
+  name: github
+  repo: mrkenallen/microbiome_website
+  branch: main
+  base_url: https://microbiomerecipes.com
+  auth_endpoint: api/auth
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}” (via CMS)"
+    update: "Update {{collection}} “{{slug}}” (via CMS)"
+    delete: "Delete {{collection}} “{{slug}}” (via CMS)"
+    uploadMedia: "Upload “{{path}}” (via CMS)"
+    deleteMedia: "Delete “{{path}}” (via CMS)"
+
+site_url: https://microbiomerecipes.com/home-preview/
+display_url: https://microbiomerecipes.com/home-preview/
+logo_url: ""
+
+media_folder: assets/images/uploads
+public_folder: /assets/images/uploads
+
+collections:
+  # ------------------------------------------------------------------ Recipes
+  - name: recipes
+    label: Recipes
+    label_singular: Recipe
+    description: "Every recipe on the site. A recipe gets its own page as soon as it has at least one Step; until then it shows as “Coming soon” in the recipe list."
+    folder: content/recipes
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}} — {{meal}} · {{status}}"
+    sortable_fields: [title, number, meal, status]
+    view_filters:
+      - { label: Drafted, field: status, pattern: Drafted }
+      - { label: Ideas only, field: status, pattern: Idea }
+    view_groups:
+      - { label: Meal, field: meal }
+    editor: { preview: false }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: List order, name: number, widget: number, value_type: int, required: false, hint: "Position in the recipe list (lower comes first)." }
+      - { label: Meal, name: meal, widget: select, options: ["Breakfast", "Lunch", "Dinner", "Side", "Bread", "Snack", "Dessert", "Condiment", "Ferment", "Drink"] }
+      - { label: Main focus (pillar), name: pillar, widget: select, options: ["Fiber", "Fermented", "Plant diversity", "Low-sugar"] }
+      - { label: Status, name: status, widget: select, default: Idea, options: [Idea, Drafted, Tested, Published] }
+      - { label: Key gut-health ingredients, name: key_ingredients, widget: string, required: false, hint: "Shown on the recipe list and fermenting page." }
+      - { label: Extra tags, name: tags, widget: list, required: false, hint: "e.g. No cooking, Make ahead, 30 minutes or less" }
+      - { label: Short intro, name: intro, widget: text, required: false }
+      - { label: Photo of the finished dish, name: image, widget: image, required: false }
+      - { label: Quick Look, name: quick_look, widget: text, required: false, hint: "The whole recipe in a few sentences, using standard abbreviations (tbsp, tsp, cup, oz, min, hr)." }
+      - { label: Prep Time, name: prep_time, widget: string, required: false, hint: "e.g. 10 minutes" }
+      - { label: Waiting Time, name: wait_time, widget: string, required: false, hint: "Only for recipes that chill, rest or ferment for a long time. Leave blank otherwise." }
+      - { label: Start To Finish, name: total, widget: string, required: false, hint: "e.g. 35 minutes" }
+      - { label: Serves, name: serves, widget: number, value_type: int, required: false }
+      - label: Equipment
+        name: equipment
+        widget: relation
+        collection: equipment
+        value_field: "{{slug}}"
+        search_fields: [title]
+        display_fields: [title]
+        multiple: true
+        required: false
+        hint: "Pick from the Equipment list. Add new items there first."
+      - label: Ingredients
+        name: ingredients
+        widget: list
+        required: false
+        summary: "{{fields.amount}} {{fields.item}}"
+        fields:
+          - { label: Amount, name: amount, widget: string, hint: "e.g. 1 cup, 2 tbsp, ½ tsp, Pinch, To serve" }
+          - { label: Ingredient, name: item, widget: string }
+      - label: Prep
+        name: prep
+        widget: list
+        required: false
+        field: { label: Prep step, name: step, widget: text }
+      - label: Steps
+        name: steps
+        widget: list
+        required: false
+        field: { label: Step, name: step, widget: text }
+      - { label: Gut-health note, name: note, widget: text, required: false, hint: "Cite a source. HTML links are allowed, e.g. <a href=\"https://…\">Source</a>." }
+      - { label: Good to know (care note), name: care, widget: text, required: false }
+
+  # ------------------------------------------------------------------ Equipment
+  - name: equipment
+    label: Equipment
+    label_singular: Equipment item
+    folder: content/equipment
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    view_groups:
+      - { label: Category, field: category }
+    editor: { preview: false }
+    fields:
+      - { label: Name, name: title, widget: string, hint: "Generic name, e.g. 8-inch chef's knife" }
+      - { label: Category, name: category, widget: select, options: ["Knives and boards", "Measuring", "Storage and fermenting", "Prep", "Pots and pans", "Tools"] }
+      - { label: Brand and model (our pick), name: model, widget: string, required: false }
+      - { label: Why we like it, name: why, widget: text }
+      - { label: Photo, name: image, widget: image, required: false }
+      - { label: Order within category, name: order, widget: number, value_type: int, required: false }
+      - label: Stores
+        name: stores
+        widget: list
+        allow_add: false
+        hint: "Leave the link empty to show “Coming soon”."
+        summary: "{{fields.store}} {{fields.price}}"
+        fields:
+          - { label: Store, name: store, widget: select, options: [Walmart, Amazon, Target] }
+          - { label: Price, name: price, widget: string, required: false, hint: "e.g. $34.99" }
+          - { label: Link, name: url, widget: string, required: false }
+
+  # ------------------------------------------------------------------ Supplies
+  - name: supplies
+    label: Supplies We Love
+    label_singular: Supply
+    folder: content/supplies
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    view_groups:
+      - { label: Category, field: category }
+    editor: { preview: false }
+    fields:
+      - { label: Name, name: title, widget: string }
+      - { label: Category, name: category, widget: select, options: ["Salt and pepper", "Oils and vinegars", "Spices", "Pantry", "Kitchen supplies"] }
+      - { label: Note, name: note, widget: string }
+      - { label: Used in, name: used_in, widget: string, required: false }
+      - { label: Photo, name: image, widget: image, required: false }
+      - { label: Order, name: order, widget: number, value_type: int, required: false }
+
+  # ------------------------------------------------------------------ Articles (Learn)
+  - name: articles
+    label: Learn articles
+    label_singular: Article
+    description: "Article cards on the Learn page. The Fiber article body is hand-built; the others show their summary and sources until written."
+    folder: content/articles
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    editor: { preview: false }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Status, name: status, widget: select, options: [mockup, draft, published] }
+      - { label: Order, name: order, widget: number, value_type: int }
+      - { label: What it covers, name: covers, widget: string }
+      - { label: Summary (the science), name: summary, widget: text, hint: "Every claim must be backed by a source below." }
+      - { label: In our recipes, name: in_our_recipes, widget: string }
+      - { label: Image, name: image, widget: image, required: false }
+      - label: Sources
+        name: sources
+        widget: list
+        summary: "{{fields.title}}"
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Link, name: url, widget: string }
+
+  # ------------------------------------------------------------------ Site settings
+  - name: settings
+    label: Site settings
+    editor: { preview: false }
+    files:
+      - label: Home page
+        name: home
+        file: content/settings/home.json
+        fields:
+          - label: Featured recipe
+            name: featured_recipe
+            widget: relation
+            collection: recipes
+            value_field: "{{slug}}"
+            search_fields: [title]
+            display_fields: [title]
+            hint: "Must be a recipe that has Steps (its own page)."
+          - { label: Featured description, name: featured_description, widget: string, required: false, hint: "One sentence. Leave blank to use the recipe's intro." }
+      - label: Cookbook page
+        name: book
+        file: content/settings/book.json
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Subtitle, name: subtitle, widget: string }
+          - { label: Authors, name: authors, widget: string }
+          - { label: Cover image, name: cover, widget: image, required: false }
+          - { label: Blurb paragraphs, name: blurb, widget: list, field: { label: Paragraph, name: p, widget: text } }
+          - { label: What's inside, name: inside, widget: list }
+          - label: Editions
+            name: editions
+            widget: list
+            fields:
+              - { label: Edition name, name: name, widget: string }
+              - { label: Description, name: description, widget: string }
+              - { label: Price, name: price, widget: string }
+              - { label: Stores, name: stores, widget: list }
+      - label: Lists and categories
+        name: taxonomy
+        file: content/settings/taxonomy.json
+        fields:
+          - { label: Meals (in display order), name: meals, widget: list }
+          - { label: Pillars, name: pillars, widget: list }
+          - { label: Equipment categories, name: equipment_categories, widget: list }
+          - { label: Supply categories, name: supply_categories, widget: list }

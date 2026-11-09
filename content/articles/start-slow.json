@@ -1,0 +1,23 @@
+{
+  "title": "Start slow, stay safe",
+  "status": "mockup",
+  "order": 6,
+  "covers": "Ramping up fiber, drinking water, and who should check with a doctor first.",
+  "summary": "Add fiber gradually and drink water with it. People with IBS, IBD or strictures, those taking MAOIs, anyone watching sodium, and people who are immunocompromised should take extra care with high-fiber and fermented foods.",
+  "in_our_recipes": "Why our recipes carry \"Good to know\" notes and suggest half portions for beginners.",
+  "sources": [
+    {
+      "title": "Ascension, 2026",
+      "url": "https://healthcare.ascension.org/blog/2026/08/flpen-fibermaxxing-too-much-fiber"
+    },
+    {
+      "title": "UF/IFAS: Sauerkraut",
+      "url": "https://ask.ifas.ufl.edu/publication/FS474/pdf"
+    },
+    {
+      "title": "Mayo Clinic: Probiotics",
+      "url": "https://mayoclinic.org/healthy-lifestyle/consumer-health/expert-answers/probiotics/faq-20058065"
+    }
+  ],
+  "image": ""
+}
