@@ -236,8 +236,8 @@ def head(title, desc):
 
 
 def header(current=None):
-    links = [("Recipes", f"{P}/#recipes-title"), ("Learn", f"{P}/learn/"),
-             ("Equipment", f"{P}/equipment/"), ("Supplies", f"{P}/supplies/")]
+    links = [("Recipes", f"{P}/recipes/"), ("Learn", f"{P}/learn/"),
+             ("Equipment", f"{P}/equipment/"), ("Supplies", f"{P}/supplies/"), ("Cookbook", f"{P}/cookbook/")]
     nav = "\n".join(
         f'      <a href="{h}"{" aria-current=\"page\"" if n == current else ""}>{n}</a>' for n, h in links)
     return f"""<div class="preview-bar" role="note">Preview — not public. This page is only reachable by its address.</div>
@@ -318,7 +318,7 @@ def recipe_page(r):
     body = f"""{head(r["title"], r["intro"])}{header()}
 <main id="main">
   <div class="wrap">
-    <p class="breadcrumb"><a href="{P}/">Home</a> / <a href="{P}/#recipes-title">Recipes</a> / {e(r["title"])}</p>
+    <p class="breadcrumb"><a href="{P}/">Home</a> / <a href="{P}/recipes/">Recipes</a> / {e(r["title"])}</p>
     <section class="recipe-hero" aria-labelledby="title">
       <div>
         <div class="tags">{tags}</div>
@@ -565,12 +565,121 @@ def article_stub(a):
     write(f"{P}/learn/{a['slug']}/index.html", body)
 
 
+# ---------------------------------------------------------------- recipe index (table of contents)
+import json
+MEAL_ORDER = ["Breakfast", "Lunch", "Dinner", "Side", "Bread", "Snack", "Dessert", "Condiment", "Ferment", "Drink"]
+MEAL_HEAD = {"Side": "Sides", "Bread": "Breads", "Snack": "Snacks", "Dessert": "Desserts",
+             "Condiment": "Condiments", "Ferment": "Ferments", "Drink": "Fermented drinks"}
+
+
+def recipes_index():
+    rows = json.load(open(os.path.join(ROOT, "tools", "recipe_list.json"), encoding="utf-8"))["site"]
+    built = {r["title"]: r["slug"] for r in RECIPES}
+    groups = {}
+    for num, title, meal, pillar, ing, status in rows:
+        groups.setdefault(meal, []).append((title, pillar))
+    toc = " · ".join(f'<a href="#{m.lower()}">{e(MEAL_HEAD.get(m, m))}</a>' for m in MEAL_ORDER if m in groups)
+    secs = []
+    for m in MEAL_ORDER:
+        if m not in groups:
+            continue
+        items = []
+        for title, pillar in groups[m]:
+            if title in built:
+                name = f'<a href="{P}/recipes/{built[title]}/">{e(title)}</a>'
+                state = '<span class="tag tag-pillar">Ready to view</span>'
+            else:
+                name = f'<span>{e(title)}</span>'
+                state = '<span class="soon">Coming soon</span>'
+            items.append(f'        <li class="toc-item"><span class="toc-name">{name}</span>'
+                         f'<span class="toc-meta"><span class="tag tag-plain">{e(pillar)}</span>{state}</span></li>')
+        secs.append(f'    <section aria-labelledby="{m.lower()}-h" id="{m.lower()}"><h2 id="{m.lower()}-h" class="cat-head">'
+                    f'{e(MEAL_HEAD.get(m, m))} <span class="count">({len(groups[m])})</span></h2>\n      <ul class="toc-list">\n'
+                    + "\n".join(items) + "\n      </ul>\n    </section>")
+    body = f"""{head("All recipes", "Every recipe on Microbiome Recipes, by meal.")}{header("Recipes")}
+<main id="main">
+  <div class="narrow" style="padding-top:40px; padding-bottom:72px">
+    <p class="eyebrow">Recipes</p>
+    <h1 class="page-title">All recipes</h1>
+    <p class="lede">{len(rows)} recipes built around fiber, fermented foods and plant variety, listed by meal. Linked titles are ready to view; the rest are coming soon.</p>
+    <nav class="toc" aria-label="Meals">{toc}</nav>
+{chr(10).join(secs)}
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/recipes/index.html", body)
+
+
+# ---------------------------------------------------------------- cookbook (book) page
+BOOK = {
+    "title": "The Microbiome Cookbook",
+    "subtitle": "Good Food, Good Gut, Good Health",
+    "authors": "Crystal Allen and Ken Allen",
+    "blurb": [
+        "Eating for your gut doesn't take supplements, special tests or a pantry full of powders. It takes good food: beans and whole grains, vegetables in every color, and the tangy, living flavors of yogurt, kefir, kimchi and sauerkraut.",
+        "In <em>The Microbiome Cookbook</em>, Crystal Allen and Ken Allen bring together 78 recipes you won't find on the website, from weekday breakfasts to slow-simmered dinners, fresh breads and homemade fermented drinks. Every recipe carries a short gut-health note that tells you what the research shows, and where it's still early.",
+        "Six plain-language science chapters explain the why: what your gut microbiome is, why fiber has the strongest evidence, what we know (and don't) about fermented foods, and how to add more fiber comfortably. A hands-on fermenting guide walks you through the base methods step by step, with the safety rules that matter.",
+    ],
+    "inside": ["78 book-only recipes, from breakfast to fermented drinks",
+               "Six short science chapters, with sources",
+               "A step-by-step guide to fermenting at home",
+               "A cited gut-health note on every recipe"],
+    "editions": [
+        ("Print edition", "Lay-flat, so it stays open on the counter while you cook.", "[PRICE]",
+         ["Amazon", "Barnes & Noble", "Bookshop.org", "Books-A-Million"]),
+        ("Ebook", "Read on your phone, tablet or e-reader.", "[PRICE]",
+         ["Kindle", "Nook", "Apple Books", "Kobo", "Google Play Books"]),
+    ],
+}
+
+
+def cookbook_page():
+    b = BOOK
+    eds = []
+    for i, (name, desc, price, stores) in enumerate(b["editions"]):
+        btns = "".join(soon_button(st, f"book-{i}-{st.lower().replace(' ', '-').replace('&', 'and').replace('.', '')}") for st in stores)
+        eds.append(f"""      <section class="edition" aria-labelledby="ed{i}">
+        <div class="edition-head"><h3 id="ed{i}">{e(name)}</h3><span class="edition-price">{e(price)}</span></div>
+        <p>{e(desc)}</p>
+        <div class="store-row">{btns}</div>
+      </section>""")
+    body = f"""{head(b["title"], b["subtitle"] + " — by " + b["authors"])}{header("Cookbook")}
+<main id="main">
+  <div class="wrap">
+    <section class="book-hero" aria-labelledby="book-h">
+      {placeholder("Book cover", "ph ph-cover")}
+      <div class="book-info">
+        <p class="eyebrow">The cookbook</p>
+        <h1 id="book-h" class="page-title" style="margin:0">{e(b["title"])}</h1>
+        <p class="lede">{e(b["subtitle"])}</p>
+        <p class="authors">By {e(b["authors"])}</p>
+        {"".join(f"<p class='blurb'>{para}</p>" for para in b["blurb"])}
+      </div>
+    </section>
+  </div>
+  <div class="narrow" style="padding-bottom:72px">
+    <section aria-labelledby="inside-h" class="callout">
+      <h2 id="inside-h" style="font-size:20px; margin-bottom:10px">What's inside</h2>
+      <ul class="inside-list">{"".join(f"<li>{e(x)}</li>" for x in b["inside"])}</ul>
+    </section>
+    <h2 class="cat-head">Order the book</h2>
+{chr(10).join(eds)}
+    <p class="fine">Store links and prices will appear here at launch. Some links may earn us a commission at no cost to you.</p>
+    <p class="disclaimer">Recipes and general information, not medical advice.</p>
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/cookbook/index.html", body)
+
+
 if __name__ == "__main__":
     for r in RECIPES:
         recipe_page(r)
     equipment_page()
     supplies_page()
     learn_index()
+    recipes_index()
+    cookbook_page()
     for a in ARTICLES:
         if a["slug"] != "fiber":  # the fiber article is hand-written
             article_stub(a)

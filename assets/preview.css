@@ -97,3 +97,24 @@
 .article-card-body h2 a:hover { color: var(--accent); text-decoration: underline; }
 .article-card-body p { margin: 0; font-size: 17px; line-height: 1.6; }
 .in-recipes { background: var(--tint); border-radius: 10px; padding: 10px 14px; font-size: 16px !important; }
+
+/* Recipe table of contents */
+.count { color: var(--muted); font-weight: 600; font-size: 20px; }
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.toc-name { font-size: 17px; font-weight: 500; }
+.toc-name a { font-weight: 600; }
+.toc-meta { display: flex; align-items: center; gap: 10px; }
+
+/* Book page */
+.book-hero { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; padding: 48px 0 32px; }
+.ph-cover { flex: 0 1 340px; aspect-ratio: 3 / 4; }
+.book-info { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.authors { margin: 0; font-size: 18px; font-weight: 600; }
+.blurb { margin: 0; font-size: 18px; line-height: 1.65; }
+.inside-list { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 17px; }
+.edition { border: 1px solid var(--line); border-radius: 16px; padding: 22px; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.edition-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.edition h3 { font-size: 22px; }
+.edition-price { font-weight: 700; font-size: 18px; }
+.edition p { margin: 0; color: var(--muted); font-size: 16px; }
