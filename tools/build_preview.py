@@ -237,8 +237,9 @@ def head(title, desc):
 
 
 def header(current=None):
-    links = [("Recipes", f"{P}/recipes/"), ("Learn", f"{P}/learn/"),
-             ("Equipment", f"{P}/equipment/"), ("Supplies", f"{P}/supplies/"), ("Cookbook", f"{P}/cookbook/")]
+    links = [("Recipes", f"{P}/recipes/"), ("Learn", f"{P}/learn/"), ("Fermenting", f"{P}/fermenting/"),
+             ("Cookbook", f"{P}/cookbook/"), ("About", f"{P}/about/"), ("Equipment", f"{P}/equipment/"),
+             ("Supplies", f"{P}/supplies/")]
     nav = "\n".join(
         f'      <a href="{h}"{" aria-current=\"page\"" if n == current else ""}>{n}</a>' for n, h in links)
     return f"""<div class="preview-bar" role="note">Preview — not public. This page is only reachable by its address.</div>
@@ -693,6 +694,149 @@ def cookbook_page():
     write(f"{P}/cookbook/index.html", body)
 
 
+# ---------------------------------------------------------------- Fermenting landing page
+FERMENT_SAFETY = [
+    ("Keep it under the brine.", "Vegetables must stay completely submerged so the right bacteria grow and air stays out.",
+     ("Clemson Extension (HGIC)", "https://hgic.clemson.edu/want-to-ferment-vegetables/")),
+    ("Mind the temperature.", "At 70–75°F, sauerkraut is fully fermented in about three to four weeks; at 60–65°F it may take six weeks.",
+     ("Penn State Extension", "https://extension.psu.edu/lets-preserve-fermentation-sauerkraut-and-pickles")),
+    ("Know when to toss it.", "Don't taste a ferment that has mold on the surface, a slimy texture or a bad smell. Discard the batch if there's a lot of visible mold.",
+     ("Penn State Extension", "https://extension.psu.edu/lets-preserve-fermentation-sauerkraut-and-pickles")),
+    ("Refrigerate when it's done.", "Once fermenting is finished, store the food in the refrigerator or can it properly.",
+     ("UC Agriculture and Natural Resources", "https://ccfruitandnuts.ucanr.edu/sites/default/files/2020-12/340665.pdf")),
+    ("Fermented drinks can contain alcohol.", "When sugar and yeast ferment, a drink like kombucha can reach 0.5% alcohol or more. If you avoid alcohol, keep that in mind with home-brewed drinks.",
+     ("U.S. Alcohol and Tobacco Tax and Trade Bureau", "https://www.ttb.gov/kombucha/kombucha-general/print")),
+]
+
+
+def fermenting_page():
+    rows = json.load(open(os.path.join(ROOT, "tools", "recipe_list.json"), encoding="utf-8"))["site"]
+    built = {r["title"]: r["slug"] for r in RECIPES}
+
+    def cards(meal):
+        out = []
+        for num, title, m, pillar, ing, status in rows:
+            if m != meal:
+                continue
+            if title in built:
+                link = f'<a href="{P}/recipes/{built[title]}/">{e(title)}</a>'
+                state = '<span class="tag tag-pillar">Ready to view</span>'
+            else:
+                link, state = e(title), '<span class="soon">Coming soon</span>'
+            out.append(f'        <li class="method-card">{placeholder(title, "ph ph-method")}<h3>{link}</h3>'
+                       f'<p>{e(ing)}</p>{state}</li>')
+        return "\n".join(out)
+
+    safety = "\n".join(
+        f'        <li><strong>{e(h)}</strong> {e(t)} <span class="fine">(<a href="{e(u)}">{e(src)}</a>)</span></li>'
+        for h, t, (src, u) in FERMENT_SAFETY)
+    body = f"""{head("Fermenting at home", "Start fermenting at home: sauerkraut, kimchi, kefir, yogurt and fermented drinks, with the safety basics.")}{header("Fermenting")}
+<main id="main">
+  <div class="wrap">
+    <section class="recipe-hero" aria-labelledby="ferm-h">
+      <div>
+        <p class="eyebrow">Fermenting</p>
+        <h1 id="ferm-h" class="page-title" style="margin:0">Fermenting at home</h1>
+        <p class="lede">Cabbage, salt and a jar are all it takes to start. Learn the base methods our recipes build on, from sauerkraut and kimchi to kefir and fizzy fermented drinks.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#methods">Start with the basics</a>
+          <a class="btn btn-secondary" href="{P}/learn/fermented-foods/">What the science says</a>
+        </div>
+      </div>
+      {placeholder("Jars of fermenting vegetables", "ph ph-hero")}
+    </section>
+    {ad("fermenting-top", "leaderboard")}
+  </div>
+
+  <div class="narrow" style="padding-bottom:72px">
+    <section id="methods" aria-labelledby="methods-h">
+      <h2 id="methods-h" class="cat-head">Base methods</h2>
+      <p class="fine" style="font-size:16px">The starting points for many of our recipes. Begin with sauerkraut: it's the simplest.</p>
+      <ul class="method-grid">
+{cards("Ferment")}
+      </ul>
+    </section>
+
+    <section aria-labelledby="safety-h" class="callout safety">
+      <h2 id="safety-h" style="font-size:22px; margin-bottom:12px">Safety basics</h2>
+      <ul class="safety-list">
+{safety}
+      </ul>
+      <p class="fine">For tested recipes and full guidance, see the <a href="https://nchfp.uga.edu/how/ferment/sauerkraut/">National Center for Home Food Preservation</a>.</p>
+    </section>
+
+    {ad("fermenting-mid")}
+
+    <section aria-labelledby="drinks-h">
+      <h2 id="drinks-h" class="cat-head">Fermented drinks</h2>
+      <ul class="method-grid">
+{cards("Drink")}
+      </ul>
+    </section>
+
+    <section aria-labelledby="gear-h" class="callout">
+      <h2 id="gear-h" style="font-size:20px; margin-bottom:8px">What you'll need</h2>
+      <p style="margin:0">Most ferments need only a knife, a cutting board, clean jars and salt. See <a href="{P}/equipment/#storage-and-fermenting">equipment</a> and <a href="{P}/supplies/#salt-and-pepper-h">supplies</a>.</p>
+    </section>
+    {ad("fermenting-bottom")}
+    <p class="disclaimer">General information, not medical or food-safety certification. Follow tested recipes and current guidance.</p>
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/fermenting/index.html", body)
+
+
+# ---------------------------------------------------------------- About page
+def about_page():
+    people = [("Crystal Allen", "[Short bio for Crystal Allen: background, role on the site and the book, and what got her interested in gut-friendly cooking.]"),
+              ("Ken Allen", "[Short bio for Ken Allen: background, role on the site and the book, and what got him interested in gut-friendly cooking.]")]
+    ppl = "\n".join(f"""      <article class="person">
+        {placeholder(n + " portrait", "ph ph-portrait")}
+        <div><h3>{e(n)}</h3><p>{e(b)}</p></div>
+      </article>""" for n, b in people)
+    pillars = [("We show our sources.", f'Every science claim links to the research behind it, and we say plainly when the evidence is early. <a href="{P}/learn/">See the science</a>.'),
+               ("We cook it first.", "Every recipe is made in our own kitchen and adjusted before it's published."),
+               ("Food first, not supplements.", "We focus on everyday food: fiber, fermented foods and plenty of plants. We don't sell supplements or gut tests."),
+               ("It's not medical advice.", "We share recipes and general information. Talk with your doctor before big changes to your diet, especially if you have a digestive condition."),
+               ("How we keep the lights on.", "The site is supported by ads, by some store links that earn a commission at no cost to you, and by our cookbook.")]
+    pl = "\n".join(f"        <li><strong>{h}</strong> {t}</li>" for h, t in pillars)
+    body = f"""{head("About us", "Who we are and how we make Microbiome Recipes.")}{header("About")}
+<main id="main">
+  <div class="narrow" style="padding-top:40px; padding-bottom:72px">
+    <p class="eyebrow">About</p>
+    <h1 class="page-title">Good food, good gut, good health</h1>
+    <p class="lede">Microbiome Recipes is a home for everyday cooking built around what the research on gut health actually supports: fiber, fermented foods and lots of different plants. No miracle cures, no supplements, just good food.</p>
+    {placeholder("Crystal and Ken in the kitchen", "ph ph-wide")}
+
+    <section aria-labelledby="who-h">
+      <h2 id="who-h" class="cat-head">Who we are</h2>
+{ppl}
+    </section>
+
+    {ad("about-mid")}
+
+    <section aria-labelledby="how-h">
+      <h2 id="how-h" class="cat-head">How we work</h2>
+      <ul class="safety-list">
+{pl}
+      </ul>
+    </section>
+
+    <section aria-labelledby="book-h2" class="callout">
+      <h2 id="book-h2" style="font-size:20px; margin-bottom:8px">The cookbook</h2>
+      <p style="margin:0"><em>The Microbiome Cookbook — Good Food, Good Gut, Good Health</em> has 150 recipes you won't find on the site. <a href="{P}/cookbook/">Learn more</a>.</p>
+    </section>
+
+    <section aria-labelledby="contact-h">
+      <h2 id="contact-h" class="cat-head">Get in touch</h2>
+      <p style="font-size:17px">Questions, corrections or a recipe that didn't work? Email us at [CONTACT EMAIL]. If you spot an error in our science, tell us and we'll fix it.</p>
+    </section>
+  </div>
+</main>
+{FOOTER}"""
+    write(f"{P}/about/index.html", body)
+
+
 if __name__ == "__main__":
     for r in RECIPES:
         recipe_page(r)
@@ -701,6 +845,8 @@ if __name__ == "__main__":
     learn_index()
     recipes_index()
     cookbook_page()
+    fermenting_page()
+    about_page()
     for a in ARTICLES:
         if a["slug"] != "fiber":  # the fiber article is hand-written
             article_stub(a)
