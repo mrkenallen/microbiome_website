@@ -1,6 +1,6 @@
 {
   "title": "Buttermilk",
-  "category": "Dairy and fermented",
+  "category": "Dairy",
   "amount": "1 cup",
   "swaps": [
     "1 cup plain yogurt",
@@ -10,5 +10,6 @@
   "origin": "extension",
   "order": 1,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
+  "kind": "swap"
 }

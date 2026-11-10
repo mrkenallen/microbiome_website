@@ -9,5 +9,6 @@
   "origin": "extension",
   "order": 7,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
+  "kind": "swap"
 }

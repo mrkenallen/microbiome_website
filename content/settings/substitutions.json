@@ -1,0 +1,46 @@
+{
+  "byline": "By Crystal Allen and Ken Allen",
+  "updated": "[DATE]",
+  "intros": [
+    {
+      "category": "Fermented foods",
+      "intro": "Think about why the recipe uses the ferment. If it's for tang and depth, almost any fermented food in the same group will do. If it's for live cultures, use it uncooked or stir it in at the end."
+    },
+    {
+      "category": "Dairy",
+      "intro": "Match texture first. Thin, pourable dairy swaps with other pourable dairy; thick, spoonable dairy swaps with other thick dairy."
+    },
+    {
+      "category": "Whole grains",
+      "intro": "Most whole grains can stand in for each other once cooked. The difference is time and texture, so cook the substitute on its own before adding it to the dish."
+    },
+    {
+      "category": "Beans and lentils",
+      "intro": "Ask whether the recipe needs beans that hold their shape or beans that melt into a sauce, and swap within that group."
+    },
+    {
+      "category": "Greens",
+      "intro": "Swap greens by sturdiness. Tender greens wilt in seconds; sturdy greens need longer cooking."
+    },
+    {
+      "category": "Produce and aromatics",
+      "intro": "Dried and powdered aromatics are stronger by volume than fresh, so use less."
+    },
+    {
+      "category": "Herbs and spices",
+      "intro": "Dried herbs are more concentrated than fresh."
+    },
+    {
+      "category": "Pantry",
+      "intro": "Pantry swaps mostly change liquid and salt, so taste and adjust as you go."
+    },
+    {
+      "category": "Baking",
+      "intro": "Baking is chemistry: swaps here are measured, so follow the amounts closely."
+    },
+    {
+      "category": "Sweeteners",
+      "intro": "Liquid and dry sweeteners aren't one-for-one; adjust the recipe's liquid as noted."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "title": "Sauerkraut",
-  "category": "Dairy and fermented",
+  "category": "Fermented foods",
   "amount": "½ cup",
   "swaps": [
     "½ cup kimchi (spicier, with garlic and chili)"
@@ -9,5 +9,6 @@
   "origin": "ours",
   "order": 6,
   "source_title": "Harvard Health: Do fermented foods live up to the hype?",
-  "source_url": "https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype"
+  "source_url": "https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype",
+  "kind": "swap"
 }

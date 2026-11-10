@@ -1,6 +1,6 @@
 {
   "title": "Buttermilk (with kefir)",
-  "category": "Dairy and fermented",
+  "category": "Fermented foods",
   "amount": "1 cup",
   "swaps": [
     "1 cup plain unsweetened kefir"
@@ -9,5 +9,6 @@
   "origin": "ours",
   "order": 5,
   "source_title": "Harvard Health: Do fermented foods live up to the hype?",
-  "source_url": "https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype"
+  "source_url": "https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype",
+  "kind": "swap"
 }

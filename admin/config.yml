@@ -184,10 +184,11 @@ collections:
       - { label: Category, field: category }
     editor: { preview: false }
     fields:
-      - { label: Ingredient, name: title, widget: string }
-      - { label: Category, name: category, widget: select, options: ["Dairy and fermented", "Produce and aromatics", "Herbs and spices", "Pantry", "Grains and seeds", "Baking", "Sweeteners"] }
-      - { label: Amount, name: amount, widget: string, hint: "e.g. 1 cup" }
-      - { label: Use instead, name: swaps, widget: list, hint: "One substitute per line, with its amount." }
+      - { label: Ingredient or group name, name: title, widget: string }
+      - { label: Type, name: kind, widget: select, default: swap, options: [{ label: "Swap (use X instead of Y)", value: swap }, { label: "Family (interchangeable ingredients)", value: family }] }
+      - { label: Category, name: category, widget: select, options: ["Fermented foods", "Dairy", "Whole grains", "Beans and lentils", "Greens", "Produce and aromatics", "Herbs and spices", "Pantry", "Baking", "Sweeteners"] }
+      - { label: Amount, name: amount, widget: string, required: false, hint: "e.g. 1 cup. Leave blank for families." }
+      - { label: "Use instead / Members", name: swaps, widget: list, hint: "Swap: one substitute per line, with its amount. Family: one ingredient per line." }
       - { label: Note, name: note, widget: text, required: false }
       - { label: Where this swap comes from, name: origin, widget: select, options: [{ label: "Published source (e.g. university extension chart)", value: extension }, { label: "Our suggestion — not yet tested", value: ours }] }
       - { label: Source title, name: source_title, widget: string, required: false }
@@ -230,6 +231,19 @@ collections:
               - { label: Description, name: description, widget: string }
               - { label: Price, name: price, widget: string }
               - { label: Stores, name: stores, widget: list }
+      - label: Substitutions page
+        name: substitutions
+        file: content/settings/substitutions.json
+        fields:
+          - { label: Byline, name: byline, widget: string }
+          - { label: Updated, name: updated, widget: string }
+          - label: Section intros
+            name: intros
+            widget: list
+            summary: "{{fields.category}}"
+            fields:
+              - { label: Category, name: category, widget: string }
+              - { label: Intro, name: intro, widget: text }
       - label: Integrations
         name: integrations
         file: content/settings/integrations.json

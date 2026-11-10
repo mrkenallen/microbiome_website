@@ -798,6 +798,8 @@ def about_page():
 # ---------------------------------------------------------------- Ingredient substitutions (CMS: Substitutions)
 def substitutions_page():
     subs = _load_folder("substitutions")
+    cfg = _load("substitutions")
+    intros = {x["category"]: x["intro"] for x in cfg.get("intros", [])}
     cats = TAX.get("substitution_categories", []) + sorted({x["category"] for x in subs} - set(TAX.get("substitution_categories", [])))
     toc = " · ".join(f'<a href="#{c.lower().replace(" ", "-")}">{e(c)}</a>' for c in cats if any(x["category"] == c for x in subs))
     secs = []
@@ -808,6 +810,7 @@ def substitutions_page():
         cards = []
         for x in items:
             ours = x.get("origin") == "ours"
+            family = x.get("kind") == "family"
             badge = ('<span class="tag tag-plain">Our suggestion · not yet tested</span>' if ours
                      else '<span class="tag tag-pillar">From a university extension chart</span>')
             swaps = "".join(f"<li>{e(w)}</li>" for w in x.get("swaps", []))
@@ -817,21 +820,24 @@ def substitutions_page():
             search = " ".join([x["title"], c] + list(x.get("swaps", []))).lower()
             cards.append(f"""      <article class="sub-card" data-search="{e(search)}">
         <div class="sub-head"><h3>{e(x["title"])}</h3><span class="sub-amt">{e(x.get("amount", ""))}</span></div>
-        <p class="sub-label">Use instead</p>
-        <ul class="sub-swaps">{swaps}</ul>
+        <p class="sub-label">{"Interchangeable" if family else "Use instead"}</p>
+        <ul class="sub-swaps{" sub-family" if family else ""}">{swaps}</ul>
         {note}
         <div class="sub-meta">{badge}</div>
         {src}
       </article>""")
         cid = c.lower().replace(" ", "-")
+        intro = f'<p class="sub-intro">{e(intros[c])}</p>' if intros.get(c) else ""
         secs.append(f'    <section class="sub-section" aria-labelledby="{cid}-h" id="{cid}"><h2 id="{cid}-h" class="cat-head">{e(c)}</h2>\n'
+                    + f'      {placeholder(c + " photo", "ph ph-wide ph-section")}\n      {intro}\n'
                     + "\n".join(cards) + "\n    </section>")
     body = f"""{head("Ingredient substitutions", "What to use when you're missing an ingredient, with notes on keeping live cultures and fiber in your cooking.")}{header("Learn")}
 <main id="main">
   <div class="narrow" style="padding-top:40px; padding-bottom:72px">
     <p class="eyebrow">Kitchen guide</p>
     <h1 class="page-title">Ingredient substitutions</h1>
-    <p class="lede">Missing something? Here's what to use instead. Swaps can change flavor and texture a little, so use them when you're in a pinch.</p>
+    <p class="byline">{e(cfg.get("byline", ""))} · Updated {e(cfg.get("updated", ""))}</p>
+    <p class="lede">Missing something? Here's what to use instead. Some swaps are one-for-one; others are families of ingredients you can trade freely. Either way, think about flavor, texture and cooking time, and taste as you go.</p>
     <div class="callout"><strong>Live cultures and heat.</strong> Heat can kill the live cultures in fermented foods like yogurt, kefir, sauerkraut and kimchi. To keep them, stir these in after cooking. <span class="fine">(<a href="https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype">Harvard Health</a>)</span></div>
     <div class="sub-search">
       <label for="sub-q">Find an ingredient</label>

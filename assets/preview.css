@@ -182,3 +182,8 @@ a.btn-store { display: inline-flex; align-items: center; text-decoration: none; 
 .sub-swaps { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 17px; line-height: 1.5; }
 .sub-note { margin: 10px 0 0; font-size: 15px; color: #3D4A43; }
 .sub-meta { margin-top: 10px; }
+
+.ph-section { margin: 12px 0 0; aspect-ratio: 3 / 1; }
+.sub-intro { font-size: 17px; line-height: 1.6; margin: 14px 0 4px; color: #3D4A43; }
+.sub-family { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.sub-family li { background: var(--tint); color: var(--accent-dark); font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 999px; }
