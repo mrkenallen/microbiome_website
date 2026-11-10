@@ -23,36 +23,50 @@
   ],
   "ingredients": [
     {
-      "amount": "1 cup",
-      "item": "Old-fashioned rolled oats"
+      "quantity": "1",
+      "unit": "cup",
+      "item": "Old-fashioned rolled oats",
+      "shop_as": "rolled oats"
     },
     {
-      "amount": "1 cup",
-      "item": "Plain unsweetened kefir"
+      "quantity": "1",
+      "unit": "cup",
+      "item": "Plain unsweetened kefir",
+      "shop_as": "plain kefir"
     },
     {
-      "amount": "½ cup",
-      "item": "Milk of choice"
+      "quantity": "½",
+      "unit": "cup",
+      "item": "Milk of choice",
+      "shop_as": "milk"
     },
     {
-      "amount": "2 tbsp",
+      "quantity": "2",
+      "unit": "tbsp",
       "item": "Chia seeds"
     },
     {
-      "amount": "½ tsp",
+      "quantity": "½",
+      "unit": "tsp",
       "item": "Vanilla extract"
     },
     {
-      "amount": "Pinch",
-      "item": "Cinnamon"
+      "quantity": "",
+      "unit": "pinch",
+      "item": "Cinnamon",
+      "shop_as": "ground cinnamon"
     },
     {
-      "amount": "1 cup",
-      "item": "Raspberries, fresh or frozen (half in, half on top)"
+      "quantity": "1",
+      "unit": "cup",
+      "item": "Raspberries, fresh or frozen (half in, half on top)",
+      "shop_as": "raspberries"
     },
     {
-      "amount": "2 tbsp",
-      "item": "Walnuts, chopped, to serve"
+      "quantity": "2",
+      "unit": "tbsp",
+      "item": "Walnuts, chopped, to serve",
+      "shop_as": "walnuts"
     }
   ],
   "prep": [

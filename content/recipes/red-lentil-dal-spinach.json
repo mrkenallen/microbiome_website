@@ -28,64 +28,106 @@
   ],
   "ingredients": [
     {
-      "amount": "1 cup",
-      "item": "Red lentils, rinsed"
+      "quantity": "1",
+      "unit": "cup",
+      "item": "Red lentils, rinsed",
+      "shop_as": "red lentils"
     },
     {
-      "amount": "3 cups",
-      "item": "Water"
+      "quantity": "3",
+      "unit": "cup",
+      "item": "Water",
+      "shop": false
     },
     {
-      "amount": "½ tsp",
+      "quantity": "½",
+      "unit": "tsp",
       "item": "Ground turmeric"
     },
     {
-      "amount": "1 tbsp",
-      "item": "Oil or ghee"
+      "quantity": "1",
+      "unit": "tbsp",
+      "item": "Oil or ghee",
+      "shop_as": "ghee"
     },
     {
-      "amount": "1 tsp",
+      "quantity": "1",
+      "unit": "tsp",
       "item": "Cumin seeds"
     },
     {
-      "amount": "1",
-      "item": "Onion, diced"
+      "quantity": "1",
+      "unit": "",
+      "item": "Onion, diced",
+      "shop_as": "yellow onion"
     },
     {
-      "amount": "3 cloves",
-      "item": "Garlic, minced"
+      "quantity": "3",
+      "unit": "clove",
+      "item": "Garlic, minced",
+      "shop_as": "garlic"
     },
     {
-      "amount": "1 tbsp",
-      "item": "Fresh ginger, grated"
+      "quantity": "1",
+      "unit": "tbsp",
+      "item": "Fresh ginger, grated",
+      "shop_as": "fresh ginger"
     },
     {
-      "amount": "1 tsp",
+      "quantity": "1",
+      "unit": "tsp",
       "item": "Ground coriander"
     },
     {
-      "amount": "½ tsp",
+      "quantity": "½",
+      "unit": "tsp",
       "item": "Garam masala"
     },
     {
-      "amount": "Pinch",
-      "item": "Chili flakes"
+      "quantity": "",
+      "unit": "pinch",
+      "item": "Chili flakes",
+      "shop_as": "red chili flakes"
     },
     {
-      "amount": "14.5 oz can",
-      "item": "Diced tomatoes"
+      "quantity": "14.5",
+      "unit": "oz",
+      "item": "Diced tomatoes (1 can)",
+      "shop_as": "diced tomatoes"
     },
     {
-      "amount": "4 cups",
+      "quantity": "4",
+      "unit": "cup",
       "item": "Baby spinach"
     },
     {
-      "amount": "1 tbsp",
+      "quantity": "1",
+      "unit": "tbsp",
       "item": "Lemon juice"
     },
     {
-      "amount": "To serve",
-      "item": "Salt, cilantro, plain yogurt and brown rice"
+      "quantity": "",
+      "unit": "to taste",
+      "item": "Salt",
+      "shop": false
+    },
+    {
+      "quantity": "",
+      "unit": "to serve",
+      "item": "Cilantro",
+      "shop_as": "cilantro"
+    },
+    {
+      "quantity": "",
+      "unit": "to serve",
+      "item": "Plain yogurt",
+      "shop_as": "plain yogurt"
+    },
+    {
+      "quantity": "",
+      "unit": "to serve",
+      "item": "Cooked brown rice",
+      "shop_as": "brown rice"
     }
   ],
   "prep": [

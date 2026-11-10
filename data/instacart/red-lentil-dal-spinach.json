@@ -1,0 +1,156 @@
+{
+ "title": "Red lentil dal with spinach",
+ "author": "Crystal Allen and Ken Allen",
+ "link_type": "recipe",
+ "external_reference_id": "red-lentil-dal-spinach",
+ "expires_in": 365,
+ "instructions": [
+  "Rinse the lentils in a strainer until the water runs mostly clear.",
+  "Dice the onion, mince the garlic and grate the ginger.",
+  "Simmer the lentils, water and turmeric 15–20 minutes, stirring now and then, until soft.",
+  "Meanwhile, heat the oil and sizzle the cumin seeds 30 seconds.",
+  "Add the onion and cook 6–8 minutes.",
+  "Add the garlic, ginger, coriander, garam masala and chili; cook 1 minute.",
+  "Add the tomatoes and simmer 5 minutes.",
+  "Stir the tomato mixture into the lentils. Add the spinach and stir until wilted.",
+  "Season with lemon juice and salt. Serve with cilantro, a spoon of yogurt and brown rice."
+ ],
+ "ingredients": [
+  {
+   "name": "red lentils",
+   "display_text": "1 cup Red lentils, rinsed",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "ground turmeric",
+   "display_text": "½ tsp Ground turmeric",
+   "measurements": [
+    {
+     "quantity": 0.5,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "ghee",
+   "display_text": "1 tbsp Oil or ghee",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "cumin seeds",
+   "display_text": "1 tsp Cumin seeds",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "yellow onion",
+   "display_text": "1 Onion, diced",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "each"
+    }
+   ]
+  },
+  {
+   "name": "garlic",
+   "display_text": "3 cloves Garlic, minced"
+  },
+  {
+   "name": "fresh ginger",
+   "display_text": "1 tbsp Fresh ginger, grated",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "ground coriander",
+   "display_text": "1 tsp Ground coriander",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "garam masala",
+   "display_text": "½ tsp Garam masala",
+   "measurements": [
+    {
+     "quantity": 0.5,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "red chili flakes",
+   "display_text": "Pinch Chili flakes"
+  },
+  {
+   "name": "diced tomatoes",
+   "display_text": "14.5 oz Diced tomatoes (1 can)",
+   "measurements": [
+    {
+     "quantity": 14.5,
+     "unit": "ounce"
+    }
+   ]
+  },
+  {
+   "name": "baby spinach",
+   "display_text": "4 cups Baby spinach",
+   "measurements": [
+    {
+     "quantity": 4.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "lemon juice",
+   "display_text": "1 tbsp Lemon juice",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "cilantro",
+   "display_text": "To serve Cilantro"
+  },
+  {
+   "name": "plain yogurt",
+   "display_text": "To serve Plain yogurt"
+  },
+  {
+   "name": "brown rice",
+   "display_text": "To serve Cooked brown rice"
+  }
+ ],
+ "landing_page_configuration": {
+  "partner_linkback_url": "https://microbiomerecipes.com/home-preview/recipes/red-lentil-dal-spinach/",
+  "enable_pantry_items": true
+ },
+ "servings": 4,
+ "cooking_time": 35
+}

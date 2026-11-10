@@ -13,6 +13,62 @@ P = "/home-preview"  # unlisted preview area; nothing public links here
 
 e = html.escape
 
+# ---------------------------------------------------------------- ingredient amounts (CMS: quantity + unit + item)
+UNITS = ["", "tsp", "tbsp", "cup", "oz", "lb", "g", "kg", "ml", "l", "pint", "quart", "can", "clove",
+         "bunch", "head", "each", "pinch", "to taste", "to serve"]
+_PLURAL = {"cup": "cups", "clove": "cloves", "can": "cans", "bunch": "bunches", "head": "heads",
+           "pint": "pints", "quart": "quarts"}
+# Instacart's accepted unit names (docs.instacart.com/developer_platform_api/api/units_of_measurement).
+# Units Instacart doesn't support (clove, pinch, to taste, to serve) are sent without a measurement.
+INSTACART_UNIT = {"tsp": "teaspoon", "tbsp": "tablespoon", "cup": "cup", "oz": "ounce", "lb": "pound",
+                  "g": "gram", "kg": "kilogram", "ml": "milliliter", "l": "liter", "pint": "pint",
+                  "quart": "quart", "can": "can", "bunch": "bunch", "head": "head", "each": "each", "": "each"}
+_FRACTIONS = {"½": 0.5, "⅓": 1 / 3, "⅔": 2 / 3, "¼": 0.25, "¾": 0.75, "⅛": 0.125}
+
+
+def amount_text(i):
+    """Display amount, e.g. '2 cloves', '½ tsp', 'Pinch', 'To serve'."""
+    if "amount" in i and "quantity" not in i:  # older entries
+        return i.get("amount", "")
+    q, u = (i.get("quantity") or "").strip(), (i.get("unit") or "").strip()
+    if u in ("pinch", "to taste", "to serve"):
+        return (q + " " + u).strip().capitalize() if q else u.capitalize()
+    if u in _PLURAL and parse_qty(q) not in (None, 1.0) and parse_qty(q) > 1:
+        u = _PLURAL[u]
+    return (q + " " + u).strip()
+
+
+def parse_qty(q):
+    """'1 ½' -> 1.5, '½' -> 0.5, '14.5' -> 14.5; None if empty or unreadable."""
+    total, found = 0.0, False
+    for part in (q or "").replace("-", " ").split():
+        if part in _FRACTIONS:
+            total += _FRACTIONS[part]; found = True
+        elif "/" in part:
+            try:
+                a, b = part.split("/"); total += float(a) / float(b); found = True
+            except ValueError:
+                return None
+        else:
+            try:
+                total += float(part); found = True
+            except ValueError:
+                return None
+    return round(total, 3) if found and total > 0 else None
+
+
+def instacart_line(i):
+    """One Instacart LineItem, or None if the ingredient isn't shopped (e.g. water)."""
+    if i.get("shop") is False:
+        return None
+    item = i.get("item", "")
+    name = (i.get("shop_as") or item.split(",")[0].split("(")[0]).strip().lower()
+    li = {"name": name, "display_text": (amount_text(i) + " " + item).strip()}
+    q, unit = parse_qty(i.get("quantity")), INSTACART_UNIT.get((i.get("unit") or "").strip())
+    if q and unit:
+        li["measurements"] = [{"quantity": q, "unit": unit}]
+    return li
+
 # ---------------------------------------------------------------- content (edited in Decap CMS at /admin)
 import json
 import glob
@@ -54,7 +110,8 @@ RECIPES = []
 for _r in ALL_RECIPES:
     if _r.get("steps"):
         r = dict(_r)
-        r["ingredients"] = [(i.get("amount", ""), i.get("item", "")) for i in r.get("ingredients", [])]
+        r["ingredients_raw"] = r.get("ingredients", [])
+        r["ingredients"] = [(amount_text(i), i.get("item", "")) for i in r["ingredients_raw"]]
         r.setdefault("serves", "")
         r["tags"] = r.get("tags") or []
         r["equipment"] = [x for x in (r.get("equipment") or []) if x in EQUIPMENT]
@@ -71,6 +128,7 @@ _b = _load("book")
 BOOK = {"title": _b["title"], "subtitle": _b["subtitle"], "authors": _b["authors"], "blurb": _b["blurb"],
         "inside": _b["inside"], "editions": [(x["name"], x["description"], x["price"], x["stores"]) for x in _b["editions"]]}
 HOME = _load("home")
+INTEGRATIONS = _load("integrations")
 SUPPLY_IMG = {d["title"]: d.get("image") for d in _sup}
 
 
@@ -176,8 +234,45 @@ def media(src, label, cls="ph"):
 
 
 def grocery_buttons(prefix):
-    return ('<div class="store-row">' + soon_button("Instacart", f"{prefix}-instacart")
-            + soon_button("Chicory", f"{prefix}-chicory") + "</div>")
+    """Supplies page: single Instacart button (coming soon until single-item shopping is built)."""
+    return '<div class="store-row">' + soon_button("Instacart", f"{prefix}-instacart") + "</div>"
+
+
+def instacart_recipe_button(r):
+    """Recipe page shop button. Live once Instacart is enabled in Site settings → Integrations."""
+    if INTEGRATIONS.get("instacart_enabled"):
+        return (f'<a class="btn btn-primary btn-instacart" rel="nofollow sponsored" href="/api/instacart/{e(r["slug"])}">'
+                f'Get recipe ingredients on Instacart</a>'
+                '<p class="fine">Service fees apply.* Instacart may not be available in all zip codes.</p>')
+    return '<div class="store-row">' + soon_button("Instacart", f'{r["slug"]}-groceries-instacart') + "</div>"
+
+
+def instacart_payload(r):
+    """Request body for Instacart's Create Recipe Page API, written to /data/instacart/<slug>.json at build time."""
+    lines = [x for x in (instacart_line(i) for i in r.get("ingredients_raw", [])) if x]
+    body = {
+        "title": r["title"],
+        "author": BOOK["authors"],
+        "link_type": "recipe",
+        "external_reference_id": r["slug"],
+        "expires_in": 365,
+        "instructions": list(r.get("prep") or []) + list(r.get("steps") or []),
+        "ingredients": lines,
+        "landing_page_configuration": {
+            "partner_linkback_url": f"{SITE}{P}/recipes/{r['slug']}/",
+            "enable_pantry_items": True,
+        },
+    }
+    if r.get("serves"):
+        body["servings"] = int(r["serves"])
+    mins = iso_duration(r.get("total"))
+    if mins:
+        import re as _re
+        h = _re.search(r"(\d+)H", mins); m = _re.search(r"(\d+)M", mins)
+        body["cooking_time"] = (int(h.group(1)) * 60 if h else 0) + (int(m.group(1)) if m else 0)
+    if r.get("image"):
+        body["image_url"] = r["image"] if r["image"].startswith("http") else SITE + r["image"]
+    return body
 
 
 def write(path, content):
@@ -186,6 +281,7 @@ def write(path, content):
     with open(full, "w", encoding="utf-8") as f:
         f.write(content)
     print("wrote", path)
+
 
 
 # ---------------------------------------------------------------- recipe structured data (schema.org/Recipe)
@@ -266,7 +362,7 @@ def recipe_page(r):
         <p class="lede">{e(r["intro"])}</p>
         <div class="shop-box" aria-labelledby="shop-title">
           <h2 id="shop-title">Shop the ingredients</h2>
-          {grocery_buttons(s + "-groceries")}
+          {instacart_recipe_button(r)}
         </div>
       </div>
       {media(r.get("image"), r["title"], "ph ph-hero")}
@@ -301,6 +397,7 @@ def recipe_page(r):
 {rows}
       </tbody>
     </table>
+    <p class="fine">Missing an ingredient? See <a href="{P}/substitutions/">ingredient substitutions</a>.</p>
 
     <section aria-labelledby="prep-title" class="method-block">
       <h2 id="prep-title" class="method-head">Prep</h2>
@@ -431,6 +528,7 @@ def learn_index():
     <p class="eyebrow">Learn</p>
     <h1 class="page-title">The science behind our recipes</h1>
     <p class="lede">Why we cook the way we do, in plain language and with sources. Where the research is early, we say so.</p>
+    <div class="callout"><strong>Kitchen guide:</strong> <a href="{P}/substitutions/">Ingredient substitutions</a> — what to use when you're missing something.</div>
     {ad("learn-top", "leaderboard")}
     <div class="article-list">
 {chr(10).join(c + (chr(10) + "      " + ad("learn-mid") if i == 2 else "") for i, c in enumerate(cards))}
@@ -697,6 +795,73 @@ def about_page():
 
 
 
+# ---------------------------------------------------------------- Ingredient substitutions (CMS: Substitutions)
+def substitutions_page():
+    subs = _load_folder("substitutions")
+    cats = TAX.get("substitution_categories", []) + sorted({x["category"] for x in subs} - set(TAX.get("substitution_categories", [])))
+    toc = " · ".join(f'<a href="#{c.lower().replace(" ", "-")}">{e(c)}</a>' for c in cats if any(x["category"] == c for x in subs))
+    secs = []
+    for c in cats:
+        items = sorted([x for x in subs if x["category"] == c], key=lambda x: (x.get("order", 999), x["title"]))
+        if not items:
+            continue
+        cards = []
+        for x in items:
+            ours = x.get("origin") == "ours"
+            badge = ('<span class="tag tag-plain">Our suggestion · not yet tested</span>' if ours
+                     else '<span class="tag tag-pillar">From a university extension chart</span>')
+            swaps = "".join(f"<li>{e(w)}</li>" for w in x.get("swaps", []))
+            note = f'<p class="sub-note">{e(x["note"])}</p>' if x.get("note") else ""
+            src = (f'<p class="fine">Source: <a href="{e(x["source_url"])}">{e(x["source_title"])}</a></p>'
+                   if x.get("source_url") else "")
+            search = " ".join([x["title"], c] + list(x.get("swaps", []))).lower()
+            cards.append(f"""      <article class="sub-card" data-search="{e(search)}">
+        <div class="sub-head"><h3>{e(x["title"])}</h3><span class="sub-amt">{e(x.get("amount", ""))}</span></div>
+        <p class="sub-label">Use instead</p>
+        <ul class="sub-swaps">{swaps}</ul>
+        {note}
+        <div class="sub-meta">{badge}</div>
+        {src}
+      </article>""")
+        cid = c.lower().replace(" ", "-")
+        secs.append(f'    <section class="sub-section" aria-labelledby="{cid}-h" id="{cid}"><h2 id="{cid}-h" class="cat-head">{e(c)}</h2>\n'
+                    + "\n".join(cards) + "\n    </section>")
+    body = f"""{head("Ingredient substitutions", "What to use when you're missing an ingredient, with notes on keeping live cultures and fiber in your cooking.")}{header("Learn")}
+<main id="main">
+  <div class="narrow" style="padding-top:40px; padding-bottom:72px">
+    <p class="eyebrow">Kitchen guide</p>
+    <h1 class="page-title">Ingredient substitutions</h1>
+    <p class="lede">Missing something? Here's what to use instead. Swaps can change flavor and texture a little, so use them when you're in a pinch.</p>
+    <div class="callout"><strong>Live cultures and heat.</strong> Heat can kill the live cultures in fermented foods like yogurt, kefir, sauerkraut and kimchi. To keep them, stir these in after cooking. <span class="fine">(<a href="https://www.health.harvard.edu/staying-healthy/do-fermented-foods-live-up-to-the-hype">Harvard Health</a>)</span></div>
+    <div class="sub-search">
+      <label for="sub-q">Find an ingredient</label>
+      <input id="sub-q" type="search" placeholder="e.g. buttermilk, garlic, cornstarch" autocomplete="off">
+      <p id="sub-count" class="fine" aria-live="polite"></p>
+    </div>
+    <nav class="toc" aria-label="Categories">{toc}</nav>
+    {ad("substitutions-top", "leaderboard")}
+{chr(10).join(secs)}
+    {ad("substitutions-bottom")}
+    <p class="disclaimer">Swaps marked "Our suggestion" haven't been tested in our kitchen yet. Recipes and general information, not medical advice.</p>
+  </div>
+</main>
+<script>
+(function () {{
+  var q = document.getElementById("sub-q"), out = document.getElementById("sub-count");
+  var cards = [].slice.call(document.querySelectorAll(".sub-card"));
+  var secs = [].slice.call(document.querySelectorAll(".sub-section"));
+  q.addEventListener("input", function () {{
+    var t = q.value.trim().toLowerCase(), n = 0;
+    cards.forEach(function (c) {{ var m = !t || c.dataset.search.indexOf(t) > -1; c.hidden = !m; if (m) n++; }});
+    secs.forEach(function (s) {{ s.hidden = !s.querySelector(".sub-card:not([hidden])"); }});
+    out.textContent = t ? n + (n === 1 ? " match" : " matches") : "";
+  }});
+}})();
+</script>
+{FOOTER}"""
+    write(f"{P}/substitutions/index.html", body)
+
+
 # ---------------------------------------------------------------- home: featured recipe (chosen in CMS settings)
 def home_featured():
     path = os.path.join(ROOT, P.lstrip("/"), "index.html")
@@ -738,18 +903,21 @@ def sync_admin_options():
     pairs = {"name: meal, widget: select": TAX["meals"], "name: pillar, widget: select": TAX["pillars"]}
     for key, vals in pairs.items():
         cfg = _re.sub(_re.escape(key) + r", options: \[[^\]]*\]", key + ", options: " + json.dumps(vals, ensure_ascii=False), cfg)
-    # category selects appear in the equipment and supplies collections, in that order
-    parts = cfg.split("name: category, widget: select, options: ")
-    if len(parts) == 3:
-        def repl(chunk, vals):
-            return json.dumps(vals, ensure_ascii=False) + chunk[chunk.index("]") + 1:]
-        cfg = parts[0] + "name: category, widget: select, options: " + repl(parts[1], TAX["equipment_categories"]) \
-            + "name: category, widget: select, options: " + repl(parts[2], TAX["supply_categories"])
+    # category selects appear in the equipment, supplies and substitutions collections, in that order
+    key = "name: category, widget: select, options: "
+    parts = cfg.split(key)
+    lists = [TAX["equipment_categories"], TAX["supply_categories"], TAX.get("substitution_categories", [])]
+    if len(parts) == len(lists) + 1:
+        out = parts[0]
+        for chunk, vals in zip(parts[1:], lists):
+            out += key + json.dumps(vals, ensure_ascii=False) + chunk[chunk.index("]") + 1:]
+        cfg = out
     open(path, "w", encoding="utf-8").write(cfg)
 
 if __name__ == "__main__":
     for r in RECIPES:
         recipe_page(r)
+        write(f"/data/instacart/{r['slug']}.json", json.dumps(instacart_payload(r), ensure_ascii=False, indent=1))
     equipment_page()
     supplies_page()
     learn_index()
@@ -757,6 +925,7 @@ if __name__ == "__main__":
     cookbook_page()
     fermenting_page()
     about_page()
+    substitutions_page()
     home_featured()
     sync_admin_options()
     for a in ARTICLES:

@@ -1,0 +1,13 @@
+{
+  "title": "Honey",
+  "category": "Sweeteners",
+  "amount": "1 cup",
+  "swaps": [
+    "1¼ cups sugar plus ¼ cup of the recipe's liquid"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 20,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}

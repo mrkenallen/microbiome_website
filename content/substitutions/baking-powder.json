@@ -1,0 +1,14 @@
+{
+  "title": "Baking powder",
+  "category": "Baking",
+  "amount": "1 tsp",
+  "swaps": [
+    "¼ tsp baking soda plus ⅝ tsp cream of tartar",
+    "¼ tsp baking soda plus ½ cup buttermilk, sour milk or yogurt (reduce the recipe's liquid by ½ cup)"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 18,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}

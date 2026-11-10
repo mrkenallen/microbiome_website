@@ -1,0 +1,13 @@
+{
+  "title": "Fresh herbs",
+  "category": "Herbs and spices",
+  "amount": "1 tbsp",
+  "swaps": [
+    "1 tsp dried herbs"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 11,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}

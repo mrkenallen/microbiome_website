@@ -1,0 +1,15 @@
+{
+  "title": "Plain yogurt",
+  "category": "Dairy and fermented",
+  "amount": "1 cup",
+  "swaps": [
+    "1 cup buttermilk",
+    "1 cup cottage cheese, blended until smooth",
+    "1 cup sour cream"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 3,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}

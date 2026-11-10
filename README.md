@@ -54,3 +54,13 @@ Cloudflare Workers static assets, Worker `microbiome-website`, connected to this
 - A recipe gets its own page once it has at least one Step. Equipment store buttons become live links once a link is entered.
 - GitHub sign-in is handled by `worker/index.js` (`/api/auth`, `/api/callback`) using the Worker secrets `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` from a GitHub OAuth App whose callback URL is `https://microbiomerecipes.com/api/callback`.
 - `content/`, `worker/` and `tools/` are not published (see `.assetsignore`).
+
+## Instacart
+
+- Recipe pages show one Instacart button. It stays "Coming soon" until **Site settings → Integrations → Instacart button live** is turned on in the editor.
+- Each build writes the Instacart request for every recipe to `/data/instacart/<slug>.json` (quantities and units mapped to Instacart's accepted unit names; ingredients with "Include in shopping cart" off are skipped).
+- Clicking the button calls `/api/instacart/<slug>` in `worker/index.js`, which creates the Instacart recipe page (365-day link), caches the link and redirects. Needs Worker secrets `INSTACART_API_KEY` and, for production, `INSTACART_ENV=production`.
+
+## Ingredient substitutions
+
+- `/home-preview/substitutions/` is generated from `content/substitutions/*.json` (editor: Substitutions). Each entry is either from a published source (currently Colorado State University Extension) or marked "Our suggestion — not yet tested".

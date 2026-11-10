@@ -26,52 +26,78 @@
   ],
   "ingredients": [
     {
-      "amount": "14 oz",
-      "item": "Extra-firm tofu, pressed and cubed"
+      "quantity": "14",
+      "unit": "oz",
+      "item": "Extra-firm tofu, pressed and cubed",
+      "shop_as": "extra-firm tofu"
     },
     {
-      "amount": "1 tbsp",
+      "quantity": "1",
+      "unit": "tbsp",
       "item": "Cornstarch"
     },
     {
-      "amount": "2 tbsp",
-      "item": "Neutral oil, divided"
+      "quantity": "2",
+      "unit": "tbsp",
+      "item": "Neutral oil, divided",
+      "shop_as": "canola oil"
     },
     {
-      "amount": "2 cloves",
-      "item": "Garlic, minced"
+      "quantity": "2",
+      "unit": "clove",
+      "item": "Garlic, minced",
+      "shop_as": "garlic"
     },
     {
-      "amount": "3",
-      "item": "Scallions, whites and greens separated"
+      "quantity": "3",
+      "unit": "",
+      "item": "Scallions, whites and greens separated",
+      "shop_as": "scallions"
     },
     {
-      "amount": "1 cup + 2 tbsp",
-      "item": "Kimchi, chopped, plus kimchi juice"
+      "quantity": "1",
+      "unit": "cup",
+      "item": "Kimchi, chopped",
+      "shop_as": "kimchi"
     },
     {
-      "amount": "1 cup",
+      "quantity": "2",
+      "unit": "tbsp",
+      "item": "Kimchi juice (from the jar)",
+      "shop": false
+    },
+    {
+      "quantity": "1",
+      "unit": "cup",
       "item": "Frozen peas and carrots"
     },
     {
-      "amount": "3 cups",
-      "item": "Cooked brown rice, chilled"
+      "quantity": "3",
+      "unit": "cup",
+      "item": "Cooked brown rice, chilled",
+      "shop_as": "brown rice"
     },
     {
-      "amount": "1 tbsp",
+      "quantity": "1",
+      "unit": "tbsp",
       "item": "Low-sodium soy sauce"
     },
     {
-      "amount": "1 tsp",
-      "item": "Gochujang (optional)"
+      "quantity": "1",
+      "unit": "tsp",
+      "item": "Gochujang (optional)",
+      "shop_as": "gochujang"
     },
     {
-      "amount": "1 tsp",
+      "quantity": "1",
+      "unit": "tsp",
       "item": "Toasted sesame oil"
     },
     {
-      "amount": "To serve",
-      "item": "3 fried eggs and sesame seeds (optional)"
+      "quantity": "",
+      "unit": "to serve",
+      "item": "3 fried eggs and sesame seeds (optional)",
+      "shop_as": "eggs"
     }
   ],
   "prep": [

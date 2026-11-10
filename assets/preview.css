@@ -166,3 +166,19 @@ img.img-thumb { width: 72px; flex: none; aspect-ratio: 1 / 1; }
 img.img-cover { flex: 0 1 340px; aspect-ratio: 3 / 4; }
 img.featured-img { aspect-ratio: 16 / 9; border-radius: 0; }
 a.btn-store { display: inline-flex; align-items: center; text-decoration: none; cursor: pointer; }
+
+.btn-instacart { align-self: flex-start; }
+
+/* Substitutions guide */
+.sub-search { display: flex; flex-direction: column; gap: 6px; margin: 24px 0 8px; }
+.sub-search label { font-weight: 600; }
+.sub-search input { height: 50px; border: 1px solid var(--border); border-radius: 10px; padding: 0 14px; font: 16px var(--sans); }
+.sub-card { border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-top: 16px; }
+.sub-card[hidden], .sub-section[hidden] { display: none; }
+.sub-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.sub-head h3 { font-size: 21px; }
+.sub-amt { font-weight: 700; color: var(--accent-dark); }
+.sub-label { margin: 10px 0 4px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.sub-swaps { margin: 0; padding-left: 22px; display: grid; gap: 6px; font-size: 17px; line-height: 1.5; }
+.sub-note { margin: 10px 0 0; font-size: 15px; color: #3D4A43; }
+.sub-meta { margin-top: 10px; }

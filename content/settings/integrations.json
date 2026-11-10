@@ -1,0 +1,4 @@
+{
+  "instacart_enabled": false,
+  "instacart_note": "Turn on once the Instacart production API key is set in Cloudflare (INSTACART_API_KEY)."
+}

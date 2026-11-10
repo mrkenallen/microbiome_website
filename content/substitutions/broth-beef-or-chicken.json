@@ -1,0 +1,14 @@
+{
+  "title": "Broth (beef or chicken)",
+  "category": "Pantry",
+  "amount": "1 cup",
+  "swaps": [
+    "1 bouillon cube dissolved in 1 cup water",
+    "1 tsp powdered broth base or instant granules dissolved in 1 cup water"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 14,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}

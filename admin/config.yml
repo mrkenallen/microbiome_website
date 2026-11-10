@@ -69,10 +69,14 @@ collections:
         name: ingredients
         widget: list
         required: false
-        summary: "{{fields.amount}} {{fields.item}}"
+        summary: "{{fields.quantity}} {{fields.unit}} {{fields.item}}"
+        hint: "One row per ingredient. Quantity and Unit are separate so Instacart can match amounts."
         fields:
-          - { label: Amount, name: amount, widget: string, hint: "e.g. 1 cup, 2 tbsp, ½ tsp, Pinch, To serve" }
-          - { label: Ingredient, name: item, widget: string }
+          - { label: Quantity, name: quantity, widget: string, required: false, hint: "e.g. 1, ½, 1 ½, 14.5. Leave blank for Pinch, To taste, To serve." }
+          - { label: Unit, name: unit, widget: select, required: false, default: "", options: ["", "tsp", "tbsp", "cup", "oz", "lb", "g", "kg", "ml", "l", "pint", "quart", "can", "clove", "bunch", "head", "each", "pinch", "to taste", "to serve"], hint: "Leave blank for whole items (e.g. 3 scallions)." }
+          - { label: Ingredient, name: item, widget: string, hint: "As shown on the page, e.g. Red lentils, rinsed" }
+          - { label: Shop as (Instacart search term), name: shop_as, widget: string, required: false, hint: "Optional. What to look for in the store, e.g. red lentils. Defaults to the text before the first comma." }
+          - { label: Include in shopping cart, name: shop, widget: boolean, required: false, default: true, hint: "Turn off for water or things from another ingredient (e.g. kimchi juice)." }
       - label: Prep
         name: prep
         widget: list
@@ -165,6 +169,31 @@ collections:
           - { label: Title, name: title, widget: string }
           - { label: Link, name: url, widget: string }
 
+  # ------------------------------------------------------------------ Ingredient substitutions
+  - name: substitutions
+    label: Substitutions
+    label_singular: Substitution
+    description: "The Ingredient substitutions guide. Mark your own swaps as “Our suggestion” until they're tested."
+    folder: content/substitutions
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    view_groups:
+      - { label: Category, field: category }
+    editor: { preview: false }
+    fields:
+      - { label: Ingredient, name: title, widget: string }
+      - { label: Category, name: category, widget: select, options: ["Dairy and fermented", "Produce and aromatics", "Herbs and spices", "Pantry", "Grains and seeds", "Baking", "Sweeteners"] }
+      - { label: Amount, name: amount, widget: string, hint: "e.g. 1 cup" }
+      - { label: Use instead, name: swaps, widget: list, hint: "One substitute per line, with its amount." }
+      - { label: Note, name: note, widget: text, required: false }
+      - { label: Where this swap comes from, name: origin, widget: select, options: [{ label: "Published source (e.g. university extension chart)", value: extension }, { label: "Our suggestion — not yet tested", value: ours }] }
+      - { label: Source title, name: source_title, widget: string, required: false }
+      - { label: Source link, name: source_url, widget: string, required: false }
+      - { label: Order, name: order, widget: number, value_type: int, required: false }
+
   # ------------------------------------------------------------------ Site settings
   - name: settings
     label: Site settings
@@ -201,6 +230,12 @@ collections:
               - { label: Description, name: description, widget: string }
               - { label: Price, name: price, widget: string }
               - { label: Stores, name: stores, widget: list }
+      - label: Integrations
+        name: integrations
+        file: content/settings/integrations.json
+        fields:
+          - { label: Instacart button live on recipe pages, name: instacart_enabled, widget: boolean, default: false, hint: "Turn on only after the Instacart API key is added in Cloudflare. While off, recipe pages show “Coming soon”." }
+          - { label: Note, name: instacart_note, widget: string, required: false }
       - label: Lists and categories
         name: taxonomy
         file: content/settings/taxonomy.json
@@ -209,3 +244,4 @@ collections:
           - { label: Pillars, name: pillars, widget: list }
           - { label: Equipment categories, name: equipment_categories, widget: list }
           - { label: Supply categories, name: supply_categories, widget: list }
+          - { label: Substitution categories, name: substitution_categories, widget: list }

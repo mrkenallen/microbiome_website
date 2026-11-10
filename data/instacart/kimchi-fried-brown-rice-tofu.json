@@ -1,0 +1,135 @@
+{
+ "title": "Kimchi fried brown rice with tofu",
+ "author": "Crystal Allen and Ken Allen",
+ "link_type": "recipe",
+ "external_reference_id": "kimchi-fried-brown-rice-tofu",
+ "expires_in": 365,
+ "instructions": [
+  "Press the tofu, then cut it into bite-size cubes.",
+  "Mince the garlic. Slice the scallions, keeping the whites and greens apart.",
+  "Chop the kimchi and save 2 tablespoons of its juice.",
+  "Toss the tofu with the cornstarch.",
+  "Heat 1 tablespoon oil over medium-high heat and crisp the tofu, 8–10 minutes. Set aside.",
+  "Add the remaining oil, the garlic, scallion whites and half the kimchi; cook 2 minutes.",
+  "Add the peas and carrots, then the rice. Press it into the pan and cook 4–5 minutes until crisp in spots.",
+  "Stir in the soy sauce, gochujang and kimchi juice. Return the tofu.",
+  "Off the heat, fold in the remaining kimchi, sesame oil and scallion greens.",
+  "Top with fried eggs and sesame seeds, if using."
+ ],
+ "ingredients": [
+  {
+   "name": "extra-firm tofu",
+   "display_text": "14 oz Extra-firm tofu, pressed and cubed",
+   "measurements": [
+    {
+     "quantity": 14.0,
+     "unit": "ounce"
+    }
+   ]
+  },
+  {
+   "name": "cornstarch",
+   "display_text": "1 tbsp Cornstarch",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "canola oil",
+   "display_text": "2 tbsp Neutral oil, divided",
+   "measurements": [
+    {
+     "quantity": 2.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "garlic",
+   "display_text": "2 cloves Garlic, minced"
+  },
+  {
+   "name": "scallions",
+   "display_text": "3 Scallions, whites and greens separated",
+   "measurements": [
+    {
+     "quantity": 3.0,
+     "unit": "each"
+    }
+   ]
+  },
+  {
+   "name": "kimchi",
+   "display_text": "1 cup Kimchi, chopped",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "frozen peas and carrots",
+   "display_text": "1 cup Frozen peas and carrots",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "brown rice",
+   "display_text": "3 cups Cooked brown rice, chilled",
+   "measurements": [
+    {
+     "quantity": 3.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "low-sodium soy sauce",
+   "display_text": "1 tbsp Low-sodium soy sauce",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "gochujang",
+   "display_text": "1 tsp Gochujang (optional)",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "toasted sesame oil",
+   "display_text": "1 tsp Toasted sesame oil",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "eggs",
+   "display_text": "To serve 3 fried eggs and sesame seeds (optional)"
+  }
+ ],
+ "landing_page_configuration": {
+  "partner_linkback_url": "https://microbiomerecipes.com/home-preview/recipes/kimchi-fried-brown-rice-tofu/",
+  "enable_pantry_items": true
+ },
+ "servings": 3,
+ "cooking_time": 25
+}

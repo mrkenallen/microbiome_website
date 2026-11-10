@@ -1,0 +1,97 @@
+{
+ "title": "Overnight oats with kefir, chia and raspberries",
+ "author": "Crystal Allen and Ken Allen",
+ "link_type": "recipe",
+ "external_reference_id": "overnight-oats-kefir-chia-raspberries",
+ "expires_in": 365,
+ "instructions": [
+  "Divide the oats between two pint jars, or use one bowl.",
+  "Chop the walnuts and set them aside for the morning.",
+  "Stir the oats, kefir, milk, chia, vanilla and cinnamon together.",
+  "Fold in half the raspberries.",
+  "Cover and refrigerate at least 6 hours or overnight.",
+  "Stir, then top with the remaining raspberries and the walnuts."
+ ],
+ "ingredients": [
+  {
+   "name": "rolled oats",
+   "display_text": "1 cup Old-fashioned rolled oats",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "plain kefir",
+   "display_text": "1 cup Plain unsweetened kefir",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "milk",
+   "display_text": "½ cup Milk of choice",
+   "measurements": [
+    {
+     "quantity": 0.5,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "chia seeds",
+   "display_text": "2 tbsp Chia seeds",
+   "measurements": [
+    {
+     "quantity": 2.0,
+     "unit": "tablespoon"
+    }
+   ]
+  },
+  {
+   "name": "vanilla extract",
+   "display_text": "½ tsp Vanilla extract",
+   "measurements": [
+    {
+     "quantity": 0.5,
+     "unit": "teaspoon"
+    }
+   ]
+  },
+  {
+   "name": "ground cinnamon",
+   "display_text": "Pinch Cinnamon"
+  },
+  {
+   "name": "raspberries",
+   "display_text": "1 cup Raspberries, fresh or frozen (half in, half on top)",
+   "measurements": [
+    {
+     "quantity": 1.0,
+     "unit": "cup"
+    }
+   ]
+  },
+  {
+   "name": "walnuts",
+   "display_text": "2 tbsp Walnuts, chopped, to serve",
+   "measurements": [
+    {
+     "quantity": 2.0,
+     "unit": "tablespoon"
+    }
+   ]
+  }
+ ],
+ "landing_page_configuration": {
+  "partner_linkback_url": "https://microbiomerecipes.com/home-preview/recipes/overnight-oats-kefir-chia-raspberries/",
+  "enable_pantry_items": true
+ },
+ "servings": 2,
+ "cooking_time": 365
+}

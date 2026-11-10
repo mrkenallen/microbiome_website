@@ -1,0 +1,14 @@
+{
+  "title": "Sour cream",
+  "category": "Dairy and fermented",
+  "amount": "1 cup",
+  "swaps": [
+    "1 cup yogurt",
+    "⅞ cup buttermilk"
+  ],
+  "note": "",
+  "origin": "extension",
+  "order": 2,
+  "source_title": "Colorado State University Extension: Ingredient Substitutions",
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
+}
