@@ -187,3 +187,32 @@ a.btn-store { display: inline-flex; align-items: center; text-decoration: none; 
 .sub-intro { font-size: 17px; line-height: 1.6; margin: 14px 0 4px; color: #3D4A43; }
 .sub-family { list-style: none; padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .sub-family li { background: var(--tint); color: var(--accent-dark); font-weight: 600; font-size: 15px; padding: 6px 12px; border-radius: 999px; }
+
+/* Substitutions table */
+.sub-page { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.sub-page .lede, .sub-page .callout, .sub-page .sub-search, .sub-page .sub-intro { max-width: 760px; }
+.sub-table-wrap { margin-top: 16px; }
+.sub-table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; }
+.sub-table thead th { text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 2px solid var(--ink); }
+.sub-table tbody th, .sub-table tbody td { text-align: left; vertical-align: top; padding: 14px 12px; border-bottom: 1px solid var(--line); }
+.sub-table tbody th { font-weight: 700; width: 20%; }
+.sub-table td:nth-child(2) { width: 11%; font-weight: 600; color: var(--accent-dark); white-space: nowrap; }
+.sub-table td:nth-child(3) { width: 31%; }
+.sub-table td:nth-child(4) { color: #3D4A43; }
+.sub-table .sub-src { width: 16%; font-size: 14px; }
+.sub-table tr[hidden] { display: none; }
+.sub-table .sub-swaps { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 16px; }
+.sub-table .sub-family { padding-left: 0; }
+.sub-table .sub-family li { font-size: 14px; padding: 4px 10px; }
+.sub-table .sub-label { display: block; margin: 0 0 6px; }
+@media (max-width: 760px) {
+  .sub-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .sub-table, .sub-table tbody, .sub-table tr, .sub-table th, .sub-table td { display: block; width: auto !important; }
+  .sub-table tbody tr { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+  .sub-table tbody th, .sub-table tbody td { border: 0; padding: 4px 0; white-space: normal !important; }
+  .sub-table tbody th { font-size: 19px; }
+  .sub-table tbody td::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .sub-table tbody td:empty { display: none; }
+}
+.sub-table .sub-family { display: flex; flex-wrap: wrap; gap: 6px; }
+.sub-page .ph-section { aspect-ratio: 5 / 1; }

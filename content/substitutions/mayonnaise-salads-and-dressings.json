@@ -1,6 +1,7 @@
 {
   "title": "Mayonnaise (salads and dressings)",
   "category": "Dairy",
+  "kind": "swap",
   "amount": "1 cup",
   "swaps": [
     "1 cup yogurt, sour cream or cottage cheese, puréed in a blender — for all or part of the mayonnaise"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 4,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

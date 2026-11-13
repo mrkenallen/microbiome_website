@@ -1,6 +1,7 @@
 {
   "title": "Fresh ginger",
   "category": "Produce and aromatics",
+  "kind": "swap",
   "amount": "1 tbsp",
   "swaps": [
     "⅛ tsp ground ginger"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 10,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

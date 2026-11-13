@@ -1,6 +1,7 @@
 {
   "title": "Brown rice (in bowls and fried rice)",
   "category": "Whole grains",
+  "kind": "swap",
   "amount": "3 cups cooked",
   "swaps": [
     "3 cups cooked farro or barley"
@@ -9,6 +10,5 @@
   "origin": "ours",
   "order": 16,
   "source_title": "",
-  "source_url": "",
-  "kind": "swap"
+  "source_url": ""
 }

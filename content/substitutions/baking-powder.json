@@ -1,6 +1,7 @@
 {
   "title": "Baking powder",
   "category": "Baking",
+  "kind": "swap",
   "amount": "1 tsp",
   "swaps": [
     "¼ tsp baking soda plus ⅝ tsp cream of tartar",
@@ -10,6 +11,5 @@
   "origin": "extension",
   "order": 18,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

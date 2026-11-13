@@ -1,6 +1,7 @@
 {
   "title": "Tomato juice",
   "category": "Pantry",
+  "kind": "swap",
   "amount": "1 cup",
   "swaps": [
     "½ cup tomato sauce plus ½ cup water"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 13,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

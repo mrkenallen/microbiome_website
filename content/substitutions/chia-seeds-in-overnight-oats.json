@@ -1,6 +1,7 @@
 {
   "title": "Chia seeds (in overnight oats)",
   "category": "Whole grains",
+  "kind": "swap",
   "amount": "2 tbsp",
   "swaps": [
     "2 tbsp ground flaxseed"
@@ -9,6 +10,5 @@
   "origin": "ours",
   "order": 17,
   "source_title": "",
-  "source_url": "",
-  "kind": "swap"
+  "source_url": ""
 }

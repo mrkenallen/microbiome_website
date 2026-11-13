@@ -1,6 +1,7 @@
 {
   "title": "All-purpose flour (baking)",
   "category": "Baking",
+  "kind": "swap",
   "amount": "1 cup",
   "swaps": [
     "1 cup minus 1 tbsp whole wheat flour"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 19,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

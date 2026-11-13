@@ -1,6 +1,7 @@
 {
   "title": "Tomato sauce",
   "category": "Pantry",
+  "kind": "swap",
   "amount": "2 cups",
   "swaps": [
     "¾ cup tomato paste plus 1 cup water"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 12,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

@@ -1,6 +1,7 @@
 {
   "title": "Lemon juice",
   "category": "Produce and aromatics",
+  "kind": "swap",
   "amount": "1 tsp",
   "swaps": [
     "½ tsp vinegar"
@@ -9,6 +10,5 @@
   "origin": "extension",
   "order": 9,
   "source_title": "Colorado State University Extension: Ingredient Substitutions",
-  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions",
-  "kind": "swap"
+  "source_url": "https://extension.colostate.edu/resource/ingredient-substitutions"
 }

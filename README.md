@@ -64,3 +64,5 @@ Cloudflare Workers static assets, Worker `microbiome-website`, connected to this
 ## Ingredient substitutions
 
 - `/home-preview/substitutions/` is generated from `content/substitutions/*.json` (editor: Substitutions). Each entry is either from a published source (currently Colorado State University Extension) or marked "Our suggestion — not yet tested".
+
+- To bulk-update substitutions from Excel: `python3 tools/import_substitutions.py file.xlsx` (add `--dry-run` to check first). It replaces everything in `content/substitutions/`.

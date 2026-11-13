@@ -807,25 +807,40 @@ def substitutions_page():
         items = sorted([x for x in subs if x["category"] == c], key=lambda x: (x.get("order", 999), x["title"]))
         if not items:
             continue
-        cards = []
+        rows = []
         for x in items:
             ours = x.get("origin") == "ours"
             family = x.get("kind") == "family"
-            badge = ('<span class="tag tag-plain">Our suggestion · not yet tested</span>' if ours
-                     else '<span class="tag tag-pillar">From a university extension chart</span>')
-            swaps = "".join(f"<li>{e(w)}</li>" for w in x.get("swaps", []))
-            note = f'<p class="sub-note">{e(x["note"])}</p>' if x.get("note") else ""
-            src = (f'<p class="fine">Source: <a href="{e(x["source_url"])}">{e(x["source_title"])}</a></p>'
-                   if x.get("source_url") else "")
-            search = " ".join([x["title"], c] + list(x.get("swaps", []))).lower()
-            cards.append(f"""      <article class="sub-card" data-search="{e(search)}">
-        <div class="sub-head"><h3>{e(x["title"])}</h3><span class="sub-amt">{e(x.get("amount", ""))}</span></div>
-        <p class="sub-label">{"Interchangeable" if family else "Use instead"}</p>
-        <ul class="sub-swaps{" sub-family" if family else ""}">{swaps}</ul>
-        {note}
-        <div class="sub-meta">{badge}</div>
-        {src}
-      </article>""")
+            if family:
+                use = ('<span class="sub-label">Interchangeable</span><ul class="sub-swaps sub-family">'
+                       + "".join(f"<li>{e(w)}</li>" for w in x.get("swaps", [])) + "</ul>")
+            else:
+                use = '<ul class="sub-swaps">' + "".join(f"<li>{e(w)}</li>" for w in x.get("swaps", [])) + "</ul>"
+            if ours:
+                src = '<span class="tag tag-plain">Our suggestion · not yet tested</span>'
+                if x.get("source_url"):
+                    src += f'<br><a class="fine" href="{e(x["source_url"])}">Note source</a>'
+            elif x.get("source_url"):
+                src = f'<a href="{e(x["source_url"])}">{e(x.get("source_title") or "Source")}</a>'
+            else:
+                src = e(x.get("source_title", ""))
+            search = " ".join([x["title"], c, x.get("note", "")] + list(x.get("swaps", []))).lower()
+            rows.append(f"""          <tr data-search="{e(search)}">
+            <th scope="row" data-label="Ingredient">{e(x["title"])}</th>
+            <td data-label="Amount">{e(x.get("amount", "")) or "—"}</td>
+            <td data-label="Use instead">{use}</td>
+            <td data-label="Notes">{e(x.get("note", ""))}</td>
+            <td data-label="Source" class="sub-src">{src}</td>
+          </tr>""")
+        cards = [f"""      <div class="sub-table-wrap">
+      <table class="sub-table">
+        <caption class="visually-hidden">Substitutions: {e(c)}</caption>
+        <thead><tr><th scope="col">Ingredient</th><th scope="col">Amount</th><th scope="col">Use instead</th><th scope="col">Notes</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+""" + "\n".join(rows) + """
+        </tbody>
+      </table>
+      </div>"""]
         cid = c.lower().replace(" ", "-")
         intro = f'<p class="sub-intro">{e(intros[c])}</p>' if intros.get(c) else ""
         secs.append(f'    <section class="sub-section" aria-labelledby="{cid}-h" id="{cid}"><h2 id="{cid}-h" class="cat-head">{e(c)}</h2>\n'
@@ -833,7 +848,7 @@ def substitutions_page():
                     + "\n".join(cards) + "\n    </section>")
     body = f"""{head("Ingredient substitutions", "What to use when you're missing an ingredient, with notes on keeping live cultures and fiber in your cooking.")}{header("Learn")}
 <main id="main">
-  <div class="narrow" style="padding-top:40px; padding-bottom:72px">
+  <div class="sub-page" style="padding-top:40px; padding-bottom:72px">
     <p class="eyebrow">Kitchen guide</p>
     <h1 class="page-title">Ingredient substitutions</h1>
     <p class="byline">{e(cfg.get("byline", ""))} · Updated {e(cfg.get("updated", ""))}</p>
@@ -854,12 +869,12 @@ def substitutions_page():
 <script>
 (function () {{
   var q = document.getElementById("sub-q"), out = document.getElementById("sub-count");
-  var cards = [].slice.call(document.querySelectorAll(".sub-card"));
+  var rows = [].slice.call(document.querySelectorAll(".sub-table tbody tr"));
   var secs = [].slice.call(document.querySelectorAll(".sub-section"));
   q.addEventListener("input", function () {{
     var t = q.value.trim().toLowerCase(), n = 0;
-    cards.forEach(function (c) {{ var m = !t || c.dataset.search.indexOf(t) > -1; c.hidden = !m; if (m) n++; }});
-    secs.forEach(function (s) {{ s.hidden = !s.querySelector(".sub-card:not([hidden])"); }});
+    rows.forEach(function (r) {{ var m = !t || r.dataset.search.indexOf(t) > -1; r.hidden = !m; if (m) n++; }});
+    secs.forEach(function (s) {{ s.hidden = !s.querySelector(".sub-table tbody tr:not([hidden])"); }});
     out.textContent = t ? n + (n === 1 ? " match" : " matches") : "";
   }});
 }})();
